@@ -3,7 +3,7 @@ package DAL;
 public class ClientDataReaderWriter implements ReadWriteInterface {
     /*
         Text File information formatting
-        UserName^Password^Name^Surname^PhoneNumber^Email^Address^Balance^IsAdmin
+        UserName^Password^Name^Surname^PhoneNumber^Email^Address^IsAdmin^Balance
     */
     public String FileReader() {
         return "";

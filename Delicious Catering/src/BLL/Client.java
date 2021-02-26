@@ -1,3 +1,5 @@
+package BLL;
+
 public class Client {
 
     private String username;
