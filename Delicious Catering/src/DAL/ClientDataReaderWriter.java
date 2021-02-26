@@ -17,13 +17,11 @@ public class ClientDataReaderWriter implements ReadWriteInterface {
         try {
             File myClientFile = new File(localDir+"/Delicious Catering/src/DataFiles/food.txt");
             System.out.println(localDir);
-            boolean exityes = myClientFile.exists();
-            System.out.println("I do exit: " + exityes);
-            //Scanner myReader = new Scanner(myFile);
-            //while (myReader.hasNextLine()) {
-            //    myClientFileList.add(myReader.nextLine());
-            //}
-            //myReader.close();
+            Scanner myReader = new Scanner(myClientFile);
+            while (myReader.hasNextLine()) {
+                myClientFileList.add(myReader.nextLine());
+            }
+            myReader.close();
         } catch (Exception e) {
         }
         return myClientFileList;

@@ -6,9 +6,5 @@ public class App {
         ClientDataReaderWriter the = new ClientDataReaderWriter();
         List<String> myStringList = the.FileReader();
         System.out.println("yes: " + myStringList.size());
-        System.out.println("Hello, World!");
-        String localDir = System.getProperty("user.dir");
-        System.out.println(localDir+"/Delicious Catering/src/DataFiles/food.txt");
-        //there are dead People
     }
 }
