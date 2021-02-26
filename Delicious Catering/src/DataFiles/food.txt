@@ -1,1 +1,23 @@
-food item^Price
+S^Soup^40.00
+S^Bread And Cheese^60.00
+S^Calamari^50.00
+S^Garlic Bread^30.00
+S^Carpaccio^80.00
+S^Salad^50.00
+M^Steak^120.00
+M^Pizza^90.00
+M^Pasta^95.00
+M^Burger^70.00
+M^Lamb Chop^90.00
+M^Sushi^65.00
+M^Chicken^80.00
+M^Ramen Noodles^50.00
+M^Rice^40.00
+D^Icecream^50.00
+D^Cheese Cake^55.00
+D^Brownies^45.00
+D^Death By Chocolate^65.00
+D^Creme Brulee^69.00
+D^Cake^50.00
+D^Custard^35.00
+D^Fruit Salad^45.00
