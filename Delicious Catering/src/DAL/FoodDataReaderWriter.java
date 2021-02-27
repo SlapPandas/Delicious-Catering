@@ -8,7 +8,6 @@ public class FoodDataReaderWriter implements ReadWriteInterface {
         String localDir = System.getProperty("user.dir");
         try {
             File myClientFile = new File(localDir+"/Delicious Catering/src/DataFiles/food.txt");
-            System.out.println(localDir);
             Scanner myReader = new Scanner(myClientFile);
             while (myReader.hasNextLine()) {
                 myClientFileList.add(myReader.nextLine());

@@ -10,13 +10,13 @@ public class Food {
         this.foodName = name;
         this.foodPrice = price;
     }
-    public String GetFoodCourseType(){
-        return this.foodCourseType;
+    public String getFoodCourseType() {
+        return foodCourseType;
     }
-    public String GetFoodName(){
-        return this.foodName;
+    public String getFoodName() {
+        return foodName;
     }
-    public Double GetFoodPrice(){
-        return this.foodPrice;
+    public double getFoodPrice() {
+        return foodPrice;
     }
 }

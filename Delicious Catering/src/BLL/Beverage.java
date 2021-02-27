@@ -8,10 +8,10 @@ public class Beverage {
         this.beverageName = name;
         this.beveragePrice = price;
     }
-    public String GetBeverageName(){
-        return this.beverageName;
+    public String getBeverageName() {
+        return beverageName;
     }
-    public Double GetBeveragePrice(){
-        return this.beveragePrice;
+    public double getBeveragePrice() {
+        return beveragePrice;
     }
 }
