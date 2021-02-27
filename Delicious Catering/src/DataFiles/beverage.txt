@@ -1,1 +1,11 @@
-deverage item^Price
+Coke#15.00
+Sprite#15.00
+Fanta#15.00
+Pepsi#14.00
+Water#10.00
+Lemonade#20.00
+Vodka Coke#40.00
+Brandy#45.00
+Wine#35.00
+Whisky#40.00
+Sparkling Water#15.00
