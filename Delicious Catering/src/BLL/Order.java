@@ -65,9 +65,13 @@ public class Order {
         this.adultsAttending = aduAtt;
     }
 
-    public double CalculateTotalAdultFoodCost(int nr, double desertprice, double mainprice, double starterprice)
+    public double CalculateTotalAdultFoodCost(int nr, List<Double> foodprices)
     {
         double adultfoodtc;
+        double desertprice = foodprices.get(2);
+        double mainprice= foodprices.get(1);
+        double starterprice = foodprices.get(0);
+
         double sum = desertprice + mainprice + starterprice;
 
         adultfoodtc = sum * nr;
@@ -76,9 +80,12 @@ public class Order {
     }
 
 
-    public double CalculateTotalChildFoodCost(int nr, double desertprice, double mainprice, double starterprice)
+    public double CalculateTotalChildFoodCost(int nr, List<Double> foodprices)
     {
         double childfoodtc;
+        double desertprice = foodprices.get(2);
+        double mainprice= foodprices.get(1);
+        double starterprice = foodprices.get(0);
 
         double sum = desertprice + mainprice + starterprice;
 
@@ -88,9 +95,27 @@ public class Order {
     }
 
 
-    public List<String> GetFoodPrices(List<String> data)
+    public List<Double> GetFoodPrices(List<String> data, List<String> foodchoice)
     {
-        List<String> foodlist = new ArrayList<>();
+        //data is from DAL & foodchoice from presentation layer
+
+        List<Double> foodprices = new ArrayList<>(); //a simple list containing the prices of the food items to use in calculations
+
+        for(int i = 0; i < foodchoice.size(); i++)
+        {
+            for(int j = 0; j < data.size(); j++)
+            {
+                if(foodchoice.get(i).equals(data.get(j)))
+                {
+                    String choice = data.get(i);
+                    String price = choice.split("^",3)[3];
+                    foodprices.add(Double.parseDouble(price));
+                    break;
+                }
+            }
+        }
+
+        return foodprices;
 
         //search through the list to get the corresponding prices
 
