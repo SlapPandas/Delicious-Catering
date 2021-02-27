@@ -1,6 +1,5 @@
 package DAL;
 import java.util.*;
-
 import BLL.*;
 
 public class BeverageData {
