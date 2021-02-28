@@ -1,9 +1,12 @@
 package BLL;
+import DAL.*;
 
 public class Food {
     private String foodCourseType;
     private String foodName;
     private double foodPrice;
+
+    public Food(){}
 
     public Food(String courseType,String name, Double price){
         this.foodCourseType = courseType;
@@ -18,5 +21,10 @@ public class Food {
     }
     public double getFoodPrice() {
         return foodPrice;
+    }
+
+    public List<Food> DisplayFoodList(){
+        FoodData myFood = new FoodData();
+        return myFood.ReadFoodList();
     }
 }
