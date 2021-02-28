@@ -1,5 +1,6 @@
 package BLL;
 
+import java.text.SimpleDateFormat;
 import java.time.*;
 import java.util.*;
 
@@ -11,11 +12,11 @@ public class Order {
     private String eventType;
     private boolean decoration;
     private String theme;
-    private LocalDate eventDate;
+    private Date eventDate;
 
-    private List<String> food;
-    private List<String> beverages;
-    private List<String> specialFoodRequest;
+    private List<String> food=new ArrayList<>();;
+    private List<String> beverages=new ArrayList<>();;
+    private List<String> specialFoodRequest=new ArrayList<>();;
     private double adultFood_TotalCost;
     private double childFood_TotalCost;
     private double bevarages_TotalCost;
@@ -36,7 +37,9 @@ public class Order {
     private int childrenAttending;
     private int adultsAttending;
 
-    public Order(int num, String cName, String adress, String type, boolean dec, String theme, LocalDate edate, List<String> food, List<String> bev, List<String> specReq, double afc, double cfc, double btc, double dtc, List<String> addons, double addonsTC, boolean covidEq, double covCost, boolean canc, double TC, double dep, boolean depositPaid, double remainingAm, int childAtt, int aduAtt)
+    public Order(int num,String cName,String adress,String type,boolean dec,String theme,Date edate,List<String> fList,List<String> bList,List<String> specReq,
+                Double afc,Double cfc, Double btc,Double dtc,List<String> addons,Double addonsTC,boolean covidEq,Double covCost,boolean canc,Double tc,Double dep,boolean depositPaid,Double remainingAm,
+                int childAtt,int aduAtt)
     {
         this.ordernr = num;
         this.clientName = cName;
@@ -45,8 +48,8 @@ public class Order {
         this.decoration = dec;
         this.theme = theme;
         this.eventDate = edate;
-        this.food = food;
-        this.beverages = bev;
+        this.food = fList;
+        this.beverages = bList;
         this.specialFoodRequest = specReq;
         this.adultFood_TotalCost = afc;
         this.childFood_TotalCost = cfc;
@@ -57,13 +60,14 @@ public class Order {
         this.covidEquipment = covidEq;
         this.cancellation = canc;
         this.covidEquip_TotalCost = covCost;
-        this.totalCost = TC;
+        this.totalCost = tc;
         this.depositDue = dep;
         this.depositPaid = depositPaid;
         this.remainingAmount = remainingAm;
         this.childrenAttending = childAtt;
         this.adultsAttending = aduAtt;
     }
+
 
     public double CalculateTotalAdultFoodCost(int nr, List<Double> foodprices)
     {
