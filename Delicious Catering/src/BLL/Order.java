@@ -11,7 +11,7 @@ public class Order {
     private String eventType;
     private boolean decoration;
     private String theme;
-    private LocalDate eventDate;
+    private Date eventDate;
 
     private List<String> food;
     private List<String> beverages;
@@ -38,7 +38,7 @@ public class Order {
 
     public Order(){};
 
-    public Order(int num, String cName, String adress, String type, boolean dec, String theme, LocalDate edate, List<String> food, List<String> bev, List<String> specReq, double afc, double cfc, double btc, double dtc, List<String> addons, double addonsTC, boolean covidEq, double covCost, boolean canc, double tc, double dep, boolean depositPaid, double remainingAm, int childAtt, int aduAtt)
+    public Order(int num, String cName, String adress, String type, boolean dec, String theme, Date edate, List<String> food, List<String> bev, List<String> specReq, double afc, double cfc, double btc, double dtc, List<String> addons, double addonsTC, boolean covidEq, double covCost, boolean canc, double tc, double dep, boolean depositPaid, double remainingAm, int childAtt, int aduAtt)
     {
         this.ordernr = num;
         this.clientName = cName;
