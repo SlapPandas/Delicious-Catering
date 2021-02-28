@@ -3,6 +3,7 @@ package BLL;
 import java.time.*;
 import java.util.*;
 import DAL.*;
+import javax.swing.JOptionPane;
 
 public class Order {
     
@@ -144,6 +145,11 @@ public class Order {
 
         double sum = desertprice + mainprice + starterprice;
 
+        if(nr >= 40)
+        {
+            sum *= 0.85;    //client qualifies for a 15% discount
+        }
+
         adultfoodtc = sum * nr;
 
         return adultfoodtc;
@@ -215,6 +221,30 @@ public class Order {
         totalcost = addons + beverage + childfood + adultfood + decocost + covidcost;
 
         return totalcost;
+    }
+
+    //check deposit
+    //cancellation
+
+    public void CheckDateAvailibility(List<Order> myOrderList, Date eventDate)
+    {
+
+        
+
+        if()
+            {
+                JOptionPane.showMessageDialog(null, "Date is not available, sorry! Please choose another.");
+                break;
+            }
+
+        for(int i = 0; i < myOrderList.size(); i++)
+        {
+            if(eventDate.equals(myOrderList.get(i).eventDate))
+            {
+                JOptionPane.showMessageDialog(null, "Date is not available, sorry! Please choose another.");
+                break;
+            }
+        }
     }
 
 }
