@@ -20,7 +20,7 @@ public class AddOnData {
     {
         DataReaderWriter myWriter= new DataReaderWriter("AddOn");
         if(myWriter.FileWriter(name+"#"+price)!=true){
-            JOptionPane.showMessageDialog(null, "Could not write beverage To file");
+            JOptionPane.showMessageDialog(null, "Could not write Addon To file");
         }
     }
 }

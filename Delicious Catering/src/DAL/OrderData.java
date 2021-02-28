@@ -10,7 +10,7 @@ import BLL.*;
 public class OrderData {
     public List<Order> ReadOrderList(){
     
-        DataReaderWriter myReader= new DataReaderWriter("Food");
+        DataReaderWriter myReader= new DataReaderWriter("Order");
         List<Order> myOrderList = new ArrayList<>();
         List<String> myOrderStringList = myReader.FileReader();
 
@@ -56,10 +56,25 @@ public class OrderData {
         }
         return myOrderList;
     }
-    public void WriteNewOrder(String course,String name,Double price)
+    public void WriteNewOrder(int ordernr,String clientName,String eventAddress,String eventType,boolean decoration,String theme,Date eventDate,List<String> food,
+                              List<String> beverages,List<String> specialFoodRequest,Double adultFood_TotalCost,Double childFood_TotalCost,Double bevarages_TotalCost,
+                              Double decoration_TotalCost,List<String> addOns,Double addOns_TotalCost,boolean covidEquipment,Double covidEquip_TotalCost,boolean cancellation,
+                              Double totalCost,Double depositDue,boolean depositPaid,Double remainingAmount,int childrenAttending,int adultsAttending)
     {
-        DataReaderWriter myWriter= new DataReaderWriter("Food");
-        if(myWriter.FileWriter(course+"#"+name+"#"+price)!=true){
+        String myfood = "";
+        for(int i=0;i<food.size();i++){myfood += food.get(i) + "@";}
+        String mybeverages= "";
+        for(int i=0;i<beverages.size();i++){myfood += beverages.get(i)+ "@";}
+        String myspecialFoodRequest= "";
+        for(int i=0;i<specialFoodRequest.size();i++){myfood += specialFoodRequest.get(i)+ "@";}
+        String myaddOns= "";
+        for(int i=0;i<addOns.size();i++){myaddOns += addOns.get(i)+ "@";}
+
+        DataReaderWriter myWriter= new DataReaderWriter("Order");
+        if(myWriter.FileWriter(ordernr+"#"+clientName+"#"+eventAddress+"#"+eventType+"#"+decoration+"#"+theme+"#"+
+                               eventDate+"#"+myfood+"#"+mybeverages+"#"+myspecialFoodRequest+"#"+adultFood_TotalCost+"#"+childFood_TotalCost+"#"+
+                               bevarages_TotalCost+"#"+decoration_TotalCost+"#"+myaddOns+"#"+addOns_TotalCost+"#"+covidEquipment+"#"+covidEquip_TotalCost+"#"+
+                               cancellation+"#"+totalCost+"#"+depositDue+"#"+depositPaid+"#"+remainingAmount+"#"+childrenAttending+"#"+adultsAttending)!=true){
             JOptionPane.showMessageDialog(null, "Could not write beverage To file");
         }
     }
