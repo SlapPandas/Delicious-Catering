@@ -36,7 +36,9 @@ public class Order {
     private int childrenAttending;
     private int adultsAttending;
 
-    public Order(int num, String cName, String adress, String type, boolean dec, String theme, LocalDate edate, List<String> food, List<String> bev, List<String> specReq, double afc, double cfc, double btc, double dtc, List<String> addons, double addonsTC, boolean covidEq, double covCost, boolean canc, double TC, double dep, boolean depositPaid, double remainingAm, int childAtt, int aduAtt)
+    public Order(){};
+
+    public Order(int num, String cName, String adress, String type, boolean dec, String theme, LocalDate edate, List<String> food, List<String> bev, List<String> specReq, double afc, double cfc, double btc, double dtc, List<String> addons, double addonsTC, boolean covidEq, double covCost, boolean canc, double tc, double dep, boolean depositPaid, double remainingAm, int childAtt, int aduAtt)
     {
         this.ordernr = num;
         this.clientName = cName;
@@ -57,13 +59,14 @@ public class Order {
         this.covidEquipment = covidEq;
         this.cancellation = canc;
         this.covidEquip_TotalCost = covCost;
-        this.totalCost = TC;
+        this.totalCost = tc;
         this.depositDue = dep;
         this.depositPaid = depositPaid;
         this.remainingAmount = remainingAm;
         this.childrenAttending = childAtt;
         this.adultsAttending = aduAtt;
     }
+
 
     public double CalculateTotalAdultFoodCost(int nr, List<Double> foodprices)
     {
@@ -173,6 +176,9 @@ public class Order {
 
     }
 
+    public double FinalAmountDue(List<Double> addons, List<Double> bev, List<Double> cho)
+    {
 
+    }
 
 }
