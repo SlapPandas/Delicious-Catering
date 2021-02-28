@@ -70,19 +70,17 @@ public class OrderData {
         DateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");  
         List<Order> myOldOrderList = ReadOrderList();
         List<String> myOldOrderStringList = myReadWriter.FileReader();
+        System.out.println(myOldOrderStringList.size());
         List<String> myNewOrderStringList = new ArrayList<>();
 
         for(int i =0;i<myOldOrderStringList.size();i++){
-
-            System.out.println(food(food)+"#"+beverages(beverages)+"#"+specialFoodRequests(specialFoodRequest));
-
             if(ordernr == myOldOrderList.get(i).getOrdernr()){
                 myNewOrderStringList.add(ordernr+"#"+clientName+"#"+eventAddress+"#"+eventType+"#"+ConvertBoolToLetter(decoration)+"#"+theme+"#"+
                 dateFormat.format(eventDate)+"#"+food(food)+"#"+beverages(beverages)+"#"+specialFoodRequests(specialFoodRequest)+"#"+adultFood_TotalCost+"#"+childFood_TotalCost+"#"+
                 bevarages_TotalCost+"#"+decoration_TotalCost+"#"+addons(addOns)+"#"+addOns_TotalCost+"#"+ConvertBoolToLetter(covidEquipment)+"#"+covidEquip_TotalCost+"#"+
                 ConvertBoolToLetter(newCancellation)+"#"+totalCost+"#"+depositDue+"#"+ConvertBoolToLetter(depositPaid)+"#"+remainingAmount+"#"+childrenAttending+"#"+adultsAttending);
             }else{
-                myNewOrderStringList.add(ordernr+"#"+clientName+"#"+eventAddress+"#"+eventType+"#"+ConvertBoolToLetter(decoration)+"#"+theme+"#"+
+                myNewOrderStringList.add(myOldOrderList.get(1).getOrdernr() +"#"+myOldOrderList.get(1).getClientName()+"#"+myOldOrderList.get(1).getEventAddress()+"#"+myOldOrderList.get(1).getEventType()+"#"+ConvertBoolToLetter(decoration)+"#"+theme+"#"+
                 dateFormat.format(eventDate)+"#"+food(food)+"#"+beverages(beverages)+"#"+specialFoodRequests(specialFoodRequest)+"#"+adultFood_TotalCost+"#"+childFood_TotalCost+"#"+
                 bevarages_TotalCost+"#"+decoration_TotalCost+"#"+addons(addOns)+"#"+addOns_TotalCost+"#"+ConvertBoolToLetter(covidEquipment)+"#"+covidEquip_TotalCost+"#"+
                 ConvertBoolToLetter(cancellation)+"#"+totalCost+"#"+depositDue+"#"+ConvertBoolToLetter(depositPaid)+"#"+remainingAmount+"#"+childrenAttending+"#"+adultsAttending);
