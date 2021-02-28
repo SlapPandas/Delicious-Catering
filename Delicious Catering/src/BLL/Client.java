@@ -1,4 +1,6 @@
 package BLL;
+import java.util.*;
+import DAL.*;
 
 public class Client {
 
@@ -53,6 +55,24 @@ public class Client {
     
     public Boolean getAdminRights() {
         return adminRights;
+    }
+    public Boolean SuccessfulLogin(String username, String password){
+        ClientData myClient = new ClientData();
+        List<Client> myClientList = myClient.ReadClientList();
+        boolean logedIn = false;
+        for(int i=0;i<myClientList.size();i++){
+            if(myClientList.get(i).username == username && myClientList.get(i).password == password){logedIn=true;break;}
+        }
+        return logedIn;
+    }
+    public Boolean IsAdmin(){
+        ClientData myClient = new ClientData();
+        List<Client> myClientList = myClient.ReadClientList();
+        boolean admin = false;
+        for(int i=0;i<myClientList.size();i++){
+            if(myClientList.get(i).username == username && myClientList.get(i).adminRights == true){admin=true;break;}
+        }
+        return admin;
     }
 
 
