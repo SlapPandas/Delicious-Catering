@@ -68,6 +68,81 @@ public class Order {
         this.childrenAttending = childAtt;
         this.adultsAttending = aduAtt;
     }
+    public int getOrdernr() {
+        return ordernr;
+    }
+    public String getClientName() {
+        return clientName;
+    }
+    public String getEventAddress() {
+        return eventAddress;
+    }
+    public String getEventType() {
+        return eventType;
+    }
+    public Boolean getDecoration(){
+        return decoration;
+    }
+    public String getTheme() {
+        return theme;
+    }
+    public Date getEventDate() {
+        return eventDate;
+    }
+    public List<String> getFood() {
+        return food;
+    }
+    public List<String> getBeverages() {
+        return beverages;
+    }
+    public List<String> getSpecialFoodRequest() {
+        return specialFoodRequest;
+    }
+    public double getAdultFood_TotalCost() {
+        return adultFood_TotalCost;
+    }
+    public double getChildFood_TotalCost() {
+        return childFood_TotalCost;
+    }
+    public double getBevarages_TotalCost() {
+        return bevarages_TotalCost;
+    }
+    public double getDecoration_TotalCost() {
+        return decoration_TotalCost;
+    }
+    public List<String> getAddOns() {
+        return addOns;
+    }
+    public double getAddOns_TotalCost() {
+        return addOns_TotalCost;
+    }
+    public Boolean getCovidEquipment(){
+        return covidEquipment;
+    }
+    public double getCovidEquip_TotalCost() {
+        return covidEquip_TotalCost;
+    }
+    public Boolean getCancellation(){
+        return cancellation;
+    }
+    public double getTotalCost() {
+        return totalCost;
+    }
+    public double getDepositDue() {
+        return depositDue;
+    }
+    public Boolean getDepositPaid(){
+        return depositPaid;
+    }
+    public double getRemainingAmount() {
+        return remainingAmount;
+    }
+    public int getChildrenAttending() {
+        return childrenAttending;
+    }
+    public int getAdultsAttending() {
+        return adultsAttending;
+    }
 
 
     public List<Food> GetFoodChoices(List<String> userchoicesPL)

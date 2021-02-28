@@ -17,17 +17,17 @@ public class DataReaderWriter implements ReadWriteInterface {
     }
 
     public List<String> FileReader() {
-        List<String> myClientFileList = new ArrayList<>();
+        List<String> myFileList = new ArrayList<>();
         try {
-            File myClientFile = new File(FilePath());
-            Scanner myReader = new Scanner(myClientFile);
+            File myCFile = new File(FilePath());
+            Scanner myReader = new Scanner(myCFile);
             while (myReader.hasNextLine()) {
-                myClientFileList.add(myReader.nextLine());
+                myFileList.add(myReader.nextLine());
             }
             myReader.close();
         } catch (Exception e) {
         }
-        return myClientFileList;
+        return myFileList;
     }
     public boolean FileWriter(String input) {
         boolean writtenToFile;

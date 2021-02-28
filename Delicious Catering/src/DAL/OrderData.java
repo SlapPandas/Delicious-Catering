@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 import BLL.*;
 
 public class OrderData {
-    public List<Order> ReadOrderList(){
+    public List<Order> ReadOrderList() throws ParseException {
     
         DataReaderWriter myReader= new DataReaderWriter("Order");
         List<Order> myOrderList = new ArrayList<>();
@@ -20,39 +20,30 @@ public class OrderData {
             String[] myFoodHoldingString = myHoldingString[7].split("@");
             List<String> myFood = new ArrayList<>();
             for(int j=0;j<myFoodHoldingString.length;j++){myFood.add(myFoodHoldingString[j]);}
-            //List<String> myFood = Arrays.asList(myFoodHoldingString);
 
             String[] mybeveragesHoldingString = myHoldingString[8].split("@");
             List<String> myBeverages = new ArrayList<>();
             for(int j=0;j<mybeveragesHoldingString.length;j++){myFood.add(mybeveragesHoldingString[j]);}
-            //List<String> myBeverages = Arrays.asList(mybeveragesHoldingString);
 
             String[] myspecialFoodRequestHoldingString = myHoldingString[9].split("@");
             List<String> mySpecialFoodRequest = new ArrayList<>();
             for(int j=0;j<myspecialFoodRequestHoldingString.length;j++){myFood.add(myspecialFoodRequestHoldingString[j]);}
-            //List<String> mySpecialFoodRequest = Arrays.asList(myspecialFoodRequestHoldingString);
 
             String[] myaddOnsHoldingString = myHoldingString[14].split("@");
             List<String> myAddOns = new ArrayList<>();
             for(int j=0;j<myaddOnsHoldingString.length;j++){myFood.add(myaddOnsHoldingString[j]);}
-            //List<String> addOns = Arrays.asList(myaddOnsHoldingString);
 
             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-            try{
                 Date myDate = formatter.parse(myHoldingString[6]);
-
-                myOrderList.add(new Order(Integer.parseInt(myHoldingString[0]),myHoldingString[1],myHoldingString[2],myHoldingString[3],CheckTrueFalse(myFoodHoldingString[4]),
-                                            myHoldingString[5],myDate,myFood,myBeverages,mySpecialFoodRequest,Double.parseDouble(myHoldingString[10]),
-                                            Double.parseDouble(myHoldingString[11]),Double.parseDouble(myHoldingString[12]),Double.parseDouble(myHoldingString[13]),myAddOns,
-                                            Double.parseDouble(myHoldingString[15]),CheckTrueFalse(myHoldingString[16]),Double.parseDouble(myHoldingString[17]),
-                                            CheckTrueFalse(myHoldingString[18]),Double.parseDouble(myHoldingString[19]),Double.parseDouble(myHoldingString[20]),
-                                            CheckTrueFalse(myHoldingString[21]),Double.parseDouble(myHoldingString[22]),Integer.parseInt(myHoldingString[22]),
-                                            Integer.parseInt(myHoldingString[23])));
-            }catch(ParseException e){}
-            
-
-            
-
+                myOrderList.add(new Order(Integer.parseInt(myHoldingString[0]),myHoldingString[1],myHoldingString[2],myHoldingString[3],
+                                          CheckTrueFalse(myHoldingString[4]),myHoldingString[5],myDate,myFood,myBeverages,mySpecialFoodRequest,
+                                          Double.parseDouble(myHoldingString[10]),Double.parseDouble(myHoldingString[11]),
+                                          Double.parseDouble(myHoldingString[12]),Double.parseDouble(myHoldingString[13]),myAddOns,
+                                          Double.parseDouble(myHoldingString[15]),CheckTrueFalse(myHoldingString[16]),
+                                          Double.parseDouble(myHoldingString[17]),CheckTrueFalse(myHoldingString[18]),
+                                          Double.parseDouble(myHoldingString[19]),Double.parseDouble(myHoldingString[20]),
+                                          CheckTrueFalse(myHoldingString[21]),Double.parseDouble(myHoldingString[22]),
+                                          Integer.parseInt(myHoldingString[23]),Integer.parseInt(myHoldingString[24])));
         }
         return myOrderList;
     }
