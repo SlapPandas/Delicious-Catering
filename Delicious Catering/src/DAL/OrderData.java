@@ -1,8 +1,9 @@
 package DAL;
-
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+
 import javax.swing.JOptionPane;
 import BLL.*;
 
@@ -22,15 +23,15 @@ public class OrderData {
 
             String[] mybeveragesHoldingString = myHoldingString[8].split("@");
             List<String> myBeverages = new ArrayList<>();
-            for(int j=0;j<mybeveragesHoldingString.length;j++){myFood.add(mybeveragesHoldingString[j]);}
+            for(int j=0;j<mybeveragesHoldingString.length;j++){myBeverages.add(mybeveragesHoldingString[j]);}
 
             String[] myspecialFoodRequestHoldingString = myHoldingString[9].split("@");
             List<String> mySpecialFoodRequest = new ArrayList<>();
-            for(int j=0;j<myspecialFoodRequestHoldingString.length;j++){myFood.add(myspecialFoodRequestHoldingString[j]);}
+            for(int j=0;j<myspecialFoodRequestHoldingString.length;j++){mySpecialFoodRequest.add(myspecialFoodRequestHoldingString[j]);}
 
             String[] myaddOnsHoldingString = myHoldingString[14].split("@");
             List<String> myAddOns = new ArrayList<>();
-            for(int j=0;j<myaddOnsHoldingString.length;j++){myFood.add(myaddOnsHoldingString[j]);}
+            for(int j=0;j<myaddOnsHoldingString.length;j++){myAddOns.add(myaddOnsHoldingString[j]);}
 
             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                 Date myDate = formatter.parse(myHoldingString[6]);
@@ -51,22 +52,72 @@ public class OrderData {
                               Double decoration_TotalCost,List<String> addOns,Double addOns_TotalCost,boolean covidEquipment,Double covidEquip_TotalCost,boolean cancellation,
                               Double totalCost,Double depositDue,boolean depositPaid,Double remainingAmount,int childrenAttending,int adultsAttending)
     {
-        String myfood = "";
-        for(int i=0;i<food.size();i++){myfood += food.get(i) + "@";}
-        String mybeverages= "";
-        for(int i=0;i<beverages.size();i++){myfood += beverages.get(i)+ "@";}
-        String myspecialFoodRequest= "";
-        for(int i=0;i<specialFoodRequest.size();i++){myfood += specialFoodRequest.get(i)+ "@";}
-        String myaddOns= "";
-        for(int i=0;i<addOns.size();i++){myaddOns += addOns.get(i)+ "@";}
-
         DataReaderWriter myWriter= new DataReaderWriter("Order");
-        if(myWriter.FileWriter(ordernr+"#"+clientName+"#"+eventAddress+"#"+eventType+"#"+decoration+"#"+theme+"#"+
-                               eventDate+"#"+myfood+"#"+mybeverages+"#"+myspecialFoodRequest+"#"+adultFood_TotalCost+"#"+childFood_TotalCost+"#"+
-                               bevarages_TotalCost+"#"+decoration_TotalCost+"#"+myaddOns+"#"+addOns_TotalCost+"#"+covidEquipment+"#"+covidEquip_TotalCost+"#"+
-                               cancellation+"#"+totalCost+"#"+depositDue+"#"+depositPaid+"#"+remainingAmount+"#"+childrenAttending+"#"+adultsAttending)!=true){
+        if(myWriter.FileWriter(ordernr+"#"+clientName+"#"+eventAddress+"#"+eventType+"#"+ConvertBoolToLetter(decoration)+"#"+theme+"#"+
+                               eventDate+"#"+food(food)+"#"+beverages(beverages)+"#"+specialFoodRequests(specialFoodRequest)+"#"+adultFood_TotalCost+"#"+childFood_TotalCost+"#"+
+                                bevarages_TotalCost+"#"+decoration_TotalCost+"#"+addons(addOns)+"#"+addOns_TotalCost+"#"+ConvertBoolToLetter(covidEquipment)+"#"+covidEquip_TotalCost+"#"+
+        ConvertBoolToLetter(cancellation)+"#"+totalCost+"#"+depositDue+"#"+ConvertBoolToLetter(depositPaid)+"#"+remainingAmount+"#"+childrenAttending+"#"+adultsAttending)!=true){
             JOptionPane.showMessageDialog(null, "Could not write beverage To file");
         }
+    }
+    public void UpdateOrderCancelation(int ordernr,String clientName,String eventAddress,String eventType,boolean decoration,String theme,Date eventDate,List<String> food,
+                              List<String> beverages,List<String> specialFoodRequest,Double adultFood_TotalCost,Double childFood_TotalCost,Double bevarages_TotalCost,
+                              Double decoration_TotalCost,List<String> addOns,Double addOns_TotalCost,boolean covidEquipment,Double covidEquip_TotalCost,boolean cancellation,
+                              Double totalCost,Double depositDue,boolean depositPaid,Double remainingAmount,int childrenAttending,int adultsAttending,boolean newCancellation)
+            throws ParseException
+    {
+        DataReaderWriter myReadWriter= new DataReaderWriter("Order");
+        DateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");  
+        List<Order> myOldOrderList = ReadOrderList();
+        List<String> myOldOrderStringList = myReadWriter.FileReader();
+        System.out.println(myOldOrderStringList.size());
+        List<String> myNewOrderStringList = new ArrayList<>();
+
+        for(int i =0;i<myOldOrderStringList.size();i++){
+            if(ordernr == myOldOrderList.get(i).getOrdernr()){
+                myNewOrderStringList.add(ordernr+"#"+clientName+"#"+eventAddress+"#"+eventType+"#"+ConvertBoolToLetter(decoration)+"#"+theme+"#"+
+                dateFormat.format(eventDate)+"#"+food(food)+"#"+beverages(beverages)+"#"+specialFoodRequests(specialFoodRequest)+"#"+adultFood_TotalCost+"#"+childFood_TotalCost+"#"+
+                bevarages_TotalCost+"#"+decoration_TotalCost+"#"+addons(addOns)+"#"+addOns_TotalCost+"#"+ConvertBoolToLetter(covidEquipment)+"#"+covidEquip_TotalCost+"#"+
+                ConvertBoolToLetter(newCancellation)+"#"+totalCost+"#"+depositDue+"#"+ConvertBoolToLetter(depositPaid)+"#"+remainingAmount+"#"+childrenAttending+"#"+adultsAttending);
+            }else{
+                myNewOrderStringList.add(myOldOrderList.get(1).getOrdernr() +"#"+myOldOrderList.get(1).getClientName()+"#"+myOldOrderList.get(1).getEventAddress()+"#"+myOldOrderList.get(1).getEventType()+"#"+ConvertBoolToLetter(decoration)+"#"+theme+"#"+
+                dateFormat.format(eventDate)+"#"+food(food)+"#"+beverages(beverages)+"#"+specialFoodRequests(specialFoodRequest)+"#"+adultFood_TotalCost+"#"+childFood_TotalCost+"#"+
+                bevarages_TotalCost+"#"+decoration_TotalCost+"#"+addons(addOns)+"#"+addOns_TotalCost+"#"+ConvertBoolToLetter(covidEquipment)+"#"+covidEquip_TotalCost+"#"+
+                ConvertBoolToLetter(cancellation)+"#"+totalCost+"#"+depositDue+"#"+ConvertBoolToLetter(depositPaid)+"#"+remainingAmount+"#"+childrenAttending+"#"+adultsAttending);
+            }
+        }
+        myReadWriter.FileWriter("");
+        for(int i =0;i<myNewOrderStringList.size();i++){
+            myReadWriter.FileWriter(myNewOrderStringList.get(i));
+        }
+             
+    }
+    private String food(List<String> food){
+        String myfood = "";
+        for(int i=0;i<food.size();i++){myfood += food.get(i)+"@";}
+        return myfood.substring(0, myfood.length() - 1);
+    }
+    private String beverages(List<String> beverages){
+        String mybeverages= "";
+        for(int i=0;i<beverages.size();i++){mybeverages += beverages.get(i)+"@";}
+        return mybeverages.substring(0, mybeverages.length() - 1);
+    }
+    private String specialFoodRequests(List<String> specialFoodRequest){
+        String myspecialFoodRequest= "";
+        for(int i=0;i<specialFoodRequest.size();i++){myspecialFoodRequest += specialFoodRequest.get(i)+"@";}
+        return myspecialFoodRequest.substring(0, myspecialFoodRequest.length() - 1);
+    }
+    private String addons(List<String> addOns){
+        String myaddOns= "";
+        for(int i=0;i<addOns.size();i++){myaddOns += addOns.get(i)+"@";}
+        return myaddOns.substring(0, myaddOns.length() - 1);
+    }
+    private String ConvertBoolToLetter(boolean input)
+    {
+        String output = "";
+        if(input = true){output="T";}
+        if(input = false){output="F";}
+        return output;
     }
     private boolean CheckTrueFalse(String input)
     {
