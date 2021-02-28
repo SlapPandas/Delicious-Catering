@@ -2,13 +2,18 @@ import java.util.*;
 
 import BLL.*;
 import DAL.*;
+import java.text.*;
+
 public class App {
     public static void main(String[] args) throws Exception {
-        OrderData the = new OrderData();
-        List<Order> myO = the.ReadOrderList();
-        System.out.println("size:" + myO.size());
-        for(int i=0;i<myO.size();i++){
-            System.out.println(myO.get(i).getUsername()+myO.get(i).getPassword()+myO.get(i).getContactnr()+myO.get(i).getAdminRights());
-        }
+
+        Order myOrder = new Order();
+
+        //SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        //        //Date myDate = formatter.parse("10-05-2021");
+        //        String myDate = "21-03-2021";
+
+        System.out.println(myOrder.CheckDeposit(1,"Blue"));
+        
     }
 }
