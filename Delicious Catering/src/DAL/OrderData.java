@@ -23,15 +23,15 @@ public class OrderData {
 
             String[] mybeveragesHoldingString = myHoldingString[8].split("@");
             List<String> myBeverages = new ArrayList<>();
-            for(int j=0;j<mybeveragesHoldingString.length;j++){myFood.add(mybeveragesHoldingString[j]);}
+            for(int j=0;j<mybeveragesHoldingString.length;j++){myBeverages.add(mybeveragesHoldingString[j]);}
 
             String[] myspecialFoodRequestHoldingString = myHoldingString[9].split("@");
             List<String> mySpecialFoodRequest = new ArrayList<>();
-            for(int j=0;j<myspecialFoodRequestHoldingString.length;j++){myFood.add(myspecialFoodRequestHoldingString[j]);}
+            for(int j=0;j<myspecialFoodRequestHoldingString.length;j++){mySpecialFoodRequest.add(myspecialFoodRequestHoldingString[j]);}
 
             String[] myaddOnsHoldingString = myHoldingString[14].split("@");
             List<String> myAddOns = new ArrayList<>();
-            for(int j=0;j<myaddOnsHoldingString.length;j++){myFood.add(myaddOnsHoldingString[j]);}
+            for(int j=0;j<myaddOnsHoldingString.length;j++){myAddOns.add(myaddOnsHoldingString[j]);}
 
             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                 Date myDate = formatter.parse(myHoldingString[6]);
@@ -97,22 +97,22 @@ public class OrderData {
     private String food(List<String> food){
         String myfood = "";
         for(int i=0;i<food.size();i++){myfood += food.get(i)+"@";}
-        return myfood;
+        return myfood.substring(0, myfood.length() - 1);
     }
     private String beverages(List<String> beverages){
         String mybeverages= "";
         for(int i=0;i<beverages.size();i++){mybeverages += beverages.get(i)+"@";}
-        return mybeverages;
+        return mybeverages.substring(0, mybeverages.length() - 1);
     }
     private String specialFoodRequests(List<String> specialFoodRequest){
         String myspecialFoodRequest= "";
         for(int i=0;i<specialFoodRequest.size();i++){myspecialFoodRequest += specialFoodRequest.get(i)+"@";}
-        return myspecialFoodRequest;
+        return myspecialFoodRequest.substring(0, myspecialFoodRequest.length() - 1);
     }
     private String addons(List<String> addOns){
         String myaddOns= "";
         for(int i=0;i<addOns.size();i++){myaddOns += addOns.get(i)+"@";}
-        return myaddOns;
+        return myaddOns.substring(0, myaddOns.length() - 1);
     }
     private String ConvertBoolToLetter(boolean input)
     {
