@@ -2,6 +2,9 @@ package BLL;
 
 import java.time.*;
 import java.util.*;
+
+import org.graalvm.compiler.nodes.memory.address.AddressNode.Address;
+
 import DAL.*;
 import java.text.*;
 
@@ -339,9 +342,7 @@ public class Order {
     {
 
         OrderData od = new OrderData();
-        List<Order> myOrderList = od.ReadOrderList(); 
-
-        System.out.printf("%s", myOrderList);
+        List<Order> myOrderList = od.ReadOrderList();
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
             Date date = new Date();
@@ -382,6 +383,13 @@ public class Order {
                 myOrderList.get(i).cancellation = true;     //cancel the order
             }
         }
+    }
+
+    public void RecordOrder(int num, String cName, String adress, String type, boolean dec, String theme, Date edate, List<String> food, List<String> bev, List<String> specReq, double afc, double cfc, double btc, double dtc, List<String> addons, double addonsTC, boolean covidEq, double covCost, boolean canc, double tc, double dep, boolean depositPaid, double remainingAm, int childAtt, int aduAtt)
+    {
+        OrderData od = new OrderData();
+
+        od.WriteNewOrder(num, cName, adress, type, dec, theme, edate, food, bev, specReq, afc, cfc, btc, dtc, addons, addonsTC, covidEq, covCost, canc, tc, dep, depositPaid, remainingAm, childAtt, aduAtt);
     }
 
 }

@@ -8,13 +8,14 @@ public class Client {
     private String password;
     private String firstname;
     private String surname;
-    private int contactnr;
+    private String contactnr;
     private String email;
     private String address;
     private Boolean adminRights;
 
     public Client(){}
-    public Client(String uname, String passw, String fname, String sname, int nr, String em, String adrs, Boolean admn){
+
+    public Client(String uname, String passw, String fname, String sname, String nr, String em, String adrs, Boolean admn){
         this.username = uname;
         this.password = passw;
         this.firstname = fname;
@@ -41,7 +42,7 @@ public class Client {
         return surname;
     }
 
-    public int getContactnr() {
+    public String getContactnr() {
         return contactnr;
     }
 
@@ -56,7 +57,9 @@ public class Client {
     public Boolean getAdminRights() {
         return adminRights;
     }
-    public Boolean SuccessfulLogin(String username, String password){
+
+    public Boolean SuccessfulLogin(String username, String password)
+    {
         ClientData myClient = new ClientData();
         List<Client> myClientList = myClient.ReadClientList();
         boolean logedIn = false;
@@ -65,7 +68,9 @@ public class Client {
         }
         return logedIn;
     }
-    public Boolean IsAdmin(){
+
+    public Boolean IsAdmin()
+    {
         ClientData myClient = new ClientData();
         List<Client> myClientList = myClient.ReadClientList();
         boolean admin = false;
@@ -74,11 +79,19 @@ public class Client {
         }
         return admin;
     }
-    public List<Client> DisplayClientList(){
+
+    public List<Client> DisplayClientList()
+    {
         ClientData myClient = new ClientData();
         return myClient.ReadClientList();
     }
 
+    public void RegisterClient(String username, String password, String fname, String surname, String contactnr, String email, String address, boolean adminRights)
+    {
+        ClientData cd = new ClientData();
 
+        cd.WriteNewClient(username, password, fname, surname, contactnr, email, address, adminRights);
+
+    }
 
 }
