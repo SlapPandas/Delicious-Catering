@@ -91,7 +91,7 @@ public class Order {
         return choiceList;
     }
 
-    public List<Beverage> GetDrinkChoices(List<String> userchoicesPL)
+    public List<Beverage> GetBeverageChoices(List<String> userchoicesPL)
     {
         List<Beverage> choiceList = new ArrayList<>();
 
@@ -194,8 +194,27 @@ public class Order {
     {
         double totalcost = 0;
 
-        totalcost = CalculateTotalAddOnCost(adultsAttending + childrenAttending, ) +
+        double addons = CalculateTotalAddOnCost(adultsAttending + childrenAttending, GetAddOnChoices(food));
+        double beverage = CalculateTotalBeverageCost(adultsAttending + childrenAttending, GetBeverageChoices(beverages));
+        double childfood = CalculateTotalChildFoodCost(childrenAttending, GetFoodChoices(food));
+        double adultfood = CalculateTotalAdultFoodCost(adultsAttending, GetFoodChoices(food));
 
+        double decocost = 0;
+        double covidcost = 0;
+
+        if(decoration)
+        {
+            decocost = 2500.00;
+        }
+
+        if(covidEquipment)
+        {
+            covidcost = 1000.00;
+        }
+
+        totalcost = addons + beverage + childfood + adultfood + decocost + covidcost;
+
+        return totalcost;
     }
 
 }
