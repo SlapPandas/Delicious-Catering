@@ -48,14 +48,13 @@ public class MainMenu {
         while(validInput = false){
             switch(choice){
                 case 0:
-                    validInput = true;  
                     System.exit(0);                                    
                     break;
                 case 1: 
-                    validInput = true;
+                    LoginMenu.runLoginMenu();
                     break;
                 case 2:
-                    validInput = true;
+                    RegisterMenu.runRegister();
                     break;
                 default: 
                     System.out.println("Invalid menu option. Please try again.");

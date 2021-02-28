@@ -3,6 +3,11 @@ package PL;
 import java.util.*;
 
 public class RegisterMenu {
+
+    public static void runRegister(){
+        
+    }
+
     private String getStringInput() {
         Scanner stringInputs = new Scanner(System.in);
         String temp = "";
@@ -41,7 +46,7 @@ public class RegisterMenu {
     
         return true;
     }  
-    
+
     private static void clearScreen(){
         System.out.print("\033[H\033[2J");
         System.out.flush();
