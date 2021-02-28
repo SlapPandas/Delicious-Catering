@@ -26,7 +26,6 @@ public class OrderData {
             String[] myaddOnsHoldingString = myHoldingString[14].split("@");
             List<String> addOns = Arrays.asList(myaddOnsHoldingString);
 
-            Date date = new SimpleDateFormat("dd/MM/yyyy",Locale.ENGLISH);
             myOrderList.add(new Order(Integer.parseInt(myHoldingString[0]), myHoldingString[1], myHoldingString[2], myHoldingString[3], 
                                     CheckTrueFalse(myHoldingString[4]), myHoldingString[5], new SimpleDateFormat("dd/MM/yyyy").parse(myHoldingString[6]), 
                                     myFoodHoldingString, mybeveragesHoldingString, myspecialFoodRequestHoldingString, Double.parseDouble(myHoldingString[10]), 
