@@ -94,9 +94,15 @@ public class Order {
         return childfoodtc;
     }
 
+    //format of items in list: 
+    //S^Mushrooms^67.00
+     //Fanta Grape^18.00
+    //Table^100.00      --> price per UNIT
 
     public List<Double> GetFoodPrices(List<String> data, List<String> foodchoice)
     {
+        //search through the list to get the corresponding prices
+        
         //data is from DAL & foodchoice from presentation layer
 
         List<Double> foodprices = new ArrayList<>(); //a simple list containing the prices of the food items to use in calculations
@@ -108,8 +114,8 @@ public class Order {
                 if(foodchoice.get(i).equals(data.get(j)))
                 {
                     String choice = data.get(i);
-                    String price = choice.split("^",3)[3];
-                    foodprices.add(Double.parseDouble(price));
+                    String price = choice.split("^",3)[3];      //will point to the price of the item
+                    foodprices.add(Double.parseDouble(price));  //convert string to double
                     break;
                 }
             }
@@ -117,8 +123,56 @@ public class Order {
 
         return foodprices;
 
+    }
+
+    public List<Double> GetBeveragePrices(List<String> data, List<String> drinkchoice)
+    {
         //search through the list to get the corresponding prices
+        
+        //data is from DAL & foodchoice from presentation layer
+
+        List<Double> beverageprices = new ArrayList<>(); //a simple list containing the prices of the food items to use in calculations
+
+        for(int i = 0; i < drinkchoice.size(); i++)
+        {
+            for(int j = 0; j < data.size(); j++)
+            {
+                if(drinkchoice.get(i).equals(data.get(j)))
+                {
+                    String choice = data.get(i);
+                    String price = choice.split("^",3)[3];      //will point to the price of the item
+                    beverageprices.add(Double.parseDouble(price));  //convert string to double
+                    break;
+                }
+            }
+        }
+
+        return beverageprices;
 
     }
+
+    public List<Double> GetAddOns(List<String> data, List<String> addonsChosen)
+    {
+        List<Double> addonsprices = new ArrayList<>(); //a simple list for containing the prices of the add on items to use in calculations
+
+        for(int i = 0; i < addonsChosen.size(); i++)
+        {
+            for(int j = 0; j < data.size(); j++)
+            {
+                if(addonsChosen.get(i).equals(data.get(j)))
+                {
+                    String choice = data.get(i);
+                    String price = choice.split("^",3)[3];
+                    addonsprices.add(Double.parseDouble(price));
+                    break;
+                }
+            }
+        }
+
+        return addonsprices;    //remember to multiply addons with the number of people attending
+
+    }
+
+
 
 }
