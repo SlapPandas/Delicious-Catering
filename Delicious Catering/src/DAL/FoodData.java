@@ -1,11 +1,12 @@
 package DAL;
 import java.util.*;
 import BLL.*;
+import javax.swing.JOptionPane;
 
 public class FoodData {
-    public List<Food> FoodList(){
+    public List<Food> ReadFoodList(){
     
-        FoodDataReaderWriter myReader= new FoodDataReaderWriter();
+        DataReaderWriter myReader= new DataReaderWriter("Food");
         List<Food> myFoodList = new ArrayList<>();
         List<String> myFoodStringList = myReader.FileReader();
 
@@ -14,5 +15,12 @@ public class FoodData {
             myFoodList.add(new Food(myHoldingString[0],myHoldingString[1], Double.parseDouble(myHoldingString[2])));
         }
         return myFoodList;
+    }
+    public void WriteNewFood(String course,String name,Double price)
+    {
+        DataReaderWriter myWriter= new DataReaderWriter("Food");
+        if(myWriter.FileWriter(course+"#"+name+"#"+price)!=true){
+            JOptionPane.showMessageDialog(null, "Could not write beverage To file");
+        }
     }
 }
