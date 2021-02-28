@@ -13,7 +13,7 @@ public class Client {
     private String address;
     private Boolean adminRights;
 
-
+    public Client(){}
     public Client(String uname, String passw, String fname, String sname, int nr, String em, String adrs, Boolean admn){
         this.username = uname;
         this.password = passw;
@@ -73,6 +73,10 @@ public class Client {
             if(myClientList.get(i).username == username && myClientList.get(i).adminRights == true){admin=true;break;}
         }
         return admin;
+    }
+    public List<Client> DisplayClientList(){
+        ClientData myClient = new ClientData();
+        return myClient.ReadClientList();
     }
 
 
