@@ -17,7 +17,7 @@ public class ClientData {
         }
         return myClientList;
     }
-    public void WriteNewClient(String username,String password,String FirstName,String surname,int contactnumber,String email,String address,Boolean adminRights)
+    public void WriteNewClient(String username,String password,String FirstName,String surname,String contactnumber,String email,String address,Boolean adminRights)
     {
         DataReaderWriter myWriter= new DataReaderWriter("Client");
         if(myWriter.FileWriter(username+"#"+password+"#"+FirstName+"#"+surname+"#"+contactnumber+"#"+email+"#"+address+"#"+adminRights)!=true){

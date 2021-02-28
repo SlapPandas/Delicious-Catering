@@ -2,8 +2,11 @@ package BLL;
 
 import java.time.*;
 import java.util.*;
+
+import org.graalvm.compiler.nodes.memory.address.AddressNode.Address;
+
 import DAL.*;
-import javax.swing.JOptionPane;
+import java.text.*;
 
 public class Order {
     
@@ -298,28 +301,95 @@ public class Order {
         return totalcost;
     }
 
-    //check deposit
-    //cancellation
-
-    public void CheckDateAvailibility(List<Order> myOrderList, Date eventDate)
+    public boolean CheckDateAvailibility(String eventDate) throws ParseException
     {
 
-        
+        boolean dateAvailable = false;
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                Date myDate = formatter.parse(eventDate);
 
-        if()
+        OrderData od = new OrderData();
+        List<Order> myOrderList = od.ReadOrderList();
+
+        
+            if(myDate.before(new Date()))
             {
-                JOptionPane.showMessageDialog(null, "Date is not available, sorry! Please choose another.");
-                break;
+                dateAvailable = false;
             }
+            else 
+            {
+                dateAvailable = true;
+
+                for(int i = 0; i < myOrderList.size(); i++)
+                {
+                    if(myDate.equals(myOrderList.get(i).eventDate))
+                    {
+                         dateAvailable = false;
+                         break;
+                    }
+                    else 
+                    {
+                        dateAvailable = true;
+                    }
+                }
+            }
+
+        return dateAvailable;
+    }
+
+    //runs when client chooses to pay deposit
+    public void CheckDeposit(int ordernr, String clientname) throws ParseException   
+    {
+
+        OrderData od = new OrderData();
+        List<Order> myOrderList = od.ReadOrderList();
+
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+            Date date = new Date();
+
+        //find the order
 
         for(int i = 0; i < myOrderList.size(); i++)
         {
-            if(eventDate.equals(myOrderList.get(i).eventDate))
+            if(ordernr == myOrderList.get(i).ordernr && clientname.equals(myOrderList.get(i).clientName))
             {
-                JOptionPane.showMessageDialog(null, "Date is not available, sorry! Please choose another.");
-                break;
+
+                long difference_In_Time 
+                = myOrderList.get(i).eventDate.getTime() - date.getTime(); 
+                long difference_In_Days = (difference_In_Time / (1000 * 60 * 60 * 24)) % 365;
+
+                if(difference_In_Days > 15)
+                {
+                    myOrderList.get(i).depositPaid = true;
+                    break;
+                }
+                else
+                {
+                    myOrderList.get(i).cancellation = true;     //cancel the order
+                }
             }
         }
+    }
+
+    public void Cancellation(int ordernr, String clientname) throws ParseException
+    {
+        OrderData od = new OrderData();
+        List<Order> myOrderList = od.ReadOrderList(); 
+
+        for(int i = 0; i < myOrderList.size(); i++)
+        {
+            if(ordernr == myOrderList.get(i).ordernr && clientname.equals(myOrderList.get(i).clientName))
+            {
+                myOrderList.get(i).cancellation = true;     //cancel the order
+            }
+        }
+    }
+
+    public void RecordOrder(int num, String cName, String adress, String type, boolean dec, String theme, Date edate, List<String> food, List<String> bev, List<String> specReq, double afc, double cfc, double btc, double dtc, List<String> addons, double addonsTC, boolean covidEq, double covCost, boolean canc, double tc, double dep, boolean depositPaid, double remainingAm, int childAtt, int aduAtt)
+    {
+        OrderData od = new OrderData();
+
+        od.WriteNewOrder(num, cName, adress, type, dec, theme, edate, food, bev, specReq, afc, cfc, btc, dtc, addons, addonsTC, covidEq, covCost, canc, tc, dep, depositPaid, remainingAm, childAtt, aduAtt);
     }
 
 }
