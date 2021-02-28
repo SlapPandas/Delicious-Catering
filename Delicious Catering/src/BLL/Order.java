@@ -2,6 +2,7 @@ package BLL;
 
 import java.time.*;
 import java.util.*;
+import DAL.*;
 
 public class Order {
     
@@ -68,12 +69,78 @@ public class Order {
     }
 
 
-    public double CalculateTotalAdultFoodCost(int nr, List<Double> foodprices)
+    public List<Food> GetFoodChoices(List<String> userchoicesPL)
+    {
+        List<Food> choiceList = new ArrayList<>();
+
+        FoodData fd = new FoodData();
+
+        List<Food> myFoodList = fd.ReadFoodList();
+
+        for(int i = 0; i < userchoicesPL.size(); i++)
+        {
+            for(int j = 0; j < myFoodList.size(); j++)
+            {
+                if(userchoicesPL.get(i).equals(myFoodList.get(j).getFoodName()))
+                {
+                    choiceList.add(myFoodList.get(j));
+                }
+            }
+        }
+
+        return choiceList;
+    }
+
+    public List<Beverage> GetDrinkChoices(List<String> userchoicesPL)
+    {
+        List<Beverage> choiceList = new ArrayList<>();
+
+        BeverageData bd = new BeverageData();
+
+        List<Beverage> myBeverageList = bd.ReadBeveragesList();
+
+        for(int i = 0; i < userchoicesPL.size(); i++)
+        {
+            for(int j = 0; j < myBeverageList.size(); j++)
+            {
+                if(userchoicesPL.get(i).equals(myBeverageList.get(j).getBeverageName()))
+                {
+                    choiceList.add(myBeverageList.get(j));
+                }
+            }
+        }
+
+        return choiceList;
+    }
+
+    public List<AddOn> GetAddOnChoices(List<String> userchoicesPL)
+    {
+        List<AddOn> choiceList = new ArrayList<>();
+
+        AddOnData ad = new AddOnData();
+
+        List<AddOn> myAddOnList = ad.ReadAddOnList();
+
+        for(int i = 0; i < userchoicesPL.size(); i++)
+        {
+            for(int j = 0; j < myAddOnList.size(); j++)
+            {
+                if(userchoicesPL.get(i).equals(myAddOnList.get(j).getAddOnName()))
+                {
+                    choiceList.add(myAddOnList.get(j));
+                }
+            }
+        }
+
+        return choiceList;
+    }
+
+    public double CalculateTotalAdultFoodCost(int nr, List<Food> choicelist)
     {
         double adultfoodtc;
-        double desertprice = foodprices.get(2);
-        double mainprice= foodprices.get(1);
-        double starterprice = foodprices.get(0);
+        double desertprice = choicelist.get(2).getFoodPrice();
+        double mainprice= choicelist.get(1).getFoodPrice();
+        double starterprice = choicelist.get(0).getFoodPrice();
 
         double sum = desertprice + mainprice + starterprice;
 
@@ -83,12 +150,12 @@ public class Order {
     }
 
 
-    public double CalculateTotalChildFoodCost(int nr, List<Double> foodprices)
+    public double CalculateTotalChildFoodCost(int nr, List<Food> choicelist)
     {
         double childfoodtc;
-        double desertprice = foodprices.get(2);
-        double mainprice= foodprices.get(1);
-        double starterprice = foodprices.get(0);
+        double desertprice = choicelist.get(2).getFoodPrice();
+        double mainprice= choicelist.get(1).getFoodPrice();
+        double starterprice = choicelist.get(0).getFoodPrice();
 
         double sum = desertprice + mainprice + starterprice;
 
@@ -97,87 +164,37 @@ public class Order {
         return childfoodtc;
     }
 
-    //format of items in list: 
-    //S^Mushrooms^67.00
-     //Fanta Grape^18.00
-    //Table^100.00      --> price per UNIT
-
-    public List<Double> GetFoodPrices(List<String> data, List<String> foodchoice)
+    public double CalculateTotalBeverageCost(int nr, List<Beverage> choicelist)
     {
-        //search through the list to get the corresponding prices
+        double beveragecost = 0;
         
-        //data is from DAL & foodchoice from presentation layer
-
-        List<Double> foodprices = new ArrayList<>(); //a simple list containing the prices of the food items to use in calculations
-
-        for(int i = 0; i < foodchoice.size(); i++)
+        for(int i =0; i < choicelist.size(); i++)
         {
-            for(int j = 0; j < data.size(); j++)
-            {
-                if(foodchoice.get(i).equals(data.get(j)))
-                {
-                    String choice = data.get(i);
-                    String price = choice.split("^",3)[3];      //will point to the price of the item
-                    foodprices.add(Double.parseDouble(price));  //convert string to double
-                    break;
-                }
-            }
+            beveragecost += choicelist.get(i).getBeveragePrice();
         }
 
-        return foodprices;
-
+        return beveragecost*nr;
+        //cost of beverages multiplied by the number of guests attending
     }
 
-    public List<Double> GetBeveragePrices(List<String> data, List<String> drinkchoice)
+    public double CalculateTotalAddOnCost(int nr, List<AddOn> choicelist)
     {
-        //search through the list to get the corresponding prices
+        double addoncost = 0;
         
-        //data is from DAL & foodchoice from presentation layer
-
-        List<Double> beverageprices = new ArrayList<>(); //a simple list containing the prices of the food items to use in calculations
-
-        for(int i = 0; i < drinkchoice.size(); i++)
+        for(int i =0; i < choicelist.size(); i++)
         {
-            for(int j = 0; j < data.size(); j++)
-            {
-                if(drinkchoice.get(i).equals(data.get(j)))
-                {
-                    String choice = data.get(i);
-                    String price = choice.split("^",3)[3];      //will point to the price of the item
-                    beverageprices.add(Double.parseDouble(price));  //convert string to double
-                    break;
-                }
-            }
+            addoncost += choicelist.get(i).getAddOnPrice();
         }
 
-        return beverageprices;
-
+        return addoncost*nr;
+        //cost of beverages multiplied by the number of guests attending
     }
 
-    public List<Double> GetAddOns(List<String> data, List<String> addonsChosen)
+    public double CalcuateTotalCost()
     {
-        List<Double> addonsprices = new ArrayList<>(); //a simple list for containing the prices of the add on items to use in calculations
+        double totalcost = 0;
 
-        for(int i = 0; i < addonsChosen.size(); i++)
-        {
-            for(int j = 0; j < data.size(); j++)
-            {
-                if(addonsChosen.get(i).equals(data.get(j)))
-                {
-                    String choice = data.get(i);
-                    String price = choice.split("^",3)[3];
-                    addonsprices.add(Double.parseDouble(price));
-                    break;
-                }
-            }
-        }
-
-        return addonsprices;    //remember to multiply addons with the number of people attending
-
-    }
-
-    public double FinalAmountDue(List<Double> addons, List<Double> bev, List<Double> cho)
-    {
+        totalcost = CalculateTotalAddOnCost(adultsAttending + childrenAttending, ) +
 
     }
 

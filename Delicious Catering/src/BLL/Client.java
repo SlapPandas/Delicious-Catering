@@ -22,27 +22,35 @@ public class Client {
         this.address = adrs;
         this.adminRights = admn;
     }
+
     public String getUsername() {
         return username;
     }
+
     public String getPassword() {
         return password;
     }
+
     public String getFirstname() {
         return firstname;
     }
+
     public String getSurname() {
         return surname;
     }
+
     public int getContactnr() {
         return contactnr;
     }
+
     public String getEmail() {
         return email;
     }
+
     public String getAddress() {
         return address;
     }
+    
     public Boolean getAdminRights() {
         return adminRights;
     }
