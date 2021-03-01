@@ -13,6 +13,7 @@ public class ClientMenu {
         System.out.println("1: Make a booking");
         System.out.println("2: Cancel a booking");
         System.out.println("3: Check up on booking");
+        System.out.println("4: Back to main menu");
         System.out.println("0: exit");
     }
 
@@ -40,20 +41,22 @@ public class ClientMenu {
         while(validInput = false){
             switch(choice){
                 case 0:
-                    validInput = true;  
                     System.exit(0);                                    
                     break;
                 case 1: 
                     ClientCreateBooking NB = new ClientCreateBooking();
                     NB.createNewBooking();
-                    validInput = true;
+                    
                     break;
                 case 2:                
                     cancelBooking();
-                    validInput = true;
+                    
                     break;
                 case 3:
                     checkBooking();
+                    
+                    break;
+                case 4:
                     validInput = true;
                     break;
                 default: 
