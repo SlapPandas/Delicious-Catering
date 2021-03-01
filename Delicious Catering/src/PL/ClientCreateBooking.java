@@ -7,6 +7,8 @@ import java.util.*;
 import BLL.AddOn;
 import BLL.Beverage;
 import BLL.Food;
+import BLL.Order;
+import jdk.nashorn.api.tree.WhileLoopTree;
 
 public class ClientCreateBooking {
     // variables needed to run user input and display lists
@@ -14,6 +16,7 @@ public class ClientCreateBooking {
     Food FV = new Food();
     Beverage BV = new Beverage();
     AddOn AOV = new AddOn();
+    Order OV = new Order();
     // variables needed to store user input
     private String ClientName;
     private String EventAddress;
@@ -35,39 +38,35 @@ public class ClientCreateBooking {
 
 
     public void createNewBooking(){
-        clearScreen();
-
-        getCourseFoods("Main");
-
+        clearScreen();        
         getClientName();        
         getEventAddress();        
         getEventType();        
         getDecorationTF();        
         getBookingDate();        
         getAdultsAttending();        
-        getChildrenAttending();      
-
-// take in food list and display
-        System.out.println("Please select 1 Starter.");
-        // read user input        
-// take in food list and display
-        System.out.println("Please select 1 Main.");
-        // read user input
-// take in food list and display
-        System.out.println("Please select 1 Desert.");
-        // read user input
-// take in drinks list and display
+        getChildrenAttending();
+        clearScreen();          
+        getStarterChoice();  
+        clearScreen();
+        getMainChoice();   
+        clearScreen();
+        getDesertChoice();      
+        clearScreen();
         System.out.println("Please select 3 drinks you would like. (Format eg. 2,5,1)");
+        // take in drinks list and display
         // read user input
         System.out.println("Please enter any special requests, press 0 to finish.");
         getSpecialFoodRequest();
         // read user. repeat until 0 is pressed
-// take in addons list and display
+        
         System.out.println("Please select the add-ons you would like.");
+        // take in addons list and display
         // read addOns
         getCovidTF();
-        // read if client wants covid equipment -Boolean
+
         // display information collected, allow user to confirm and then send to DAL.
+        //OV.GetOrderInfo(ClientName, EventAddress, EventType, Decoration, theme, eventDate, chosenFood, chosenDrinks, specialRequests, addOns, covidEquipment, childrenAttending, adultsAttending);
         stringInput.close();
     }
 
@@ -277,9 +276,122 @@ public class ClientCreateBooking {
         List<Food> FoodList = FV.GetFood(MealType);
         for(int i = 0; i < FoodList.size() ; i++)
         {   
-            System.out.println();
             System.out.println((i+1) + ") "+ FoodList.get(i).getFoodName() + " R" + FoodList.get(i).getFoodPrice());
         }
+    }
+
+    private  void getStarterChoice(){
+        System.out.println("Please select 1 Starter.");
+        getCourseFoods("Starter"); 
+
+        Boolean validInput = false;
+        Boolean fromList = false;
+        List<Food> FoodList = FV.GetFood("Starter");
+        String input = stringInput.nextLine();
+        String check;    
+        input = input.trim();
+        while (fromList == false) { 
+            while (validInput == false) {
+                if(input == null|| input.matches("")){
+                    System.out.println("Please enter a valid input");
+                    input = stringInput.nextLine();
+                    input = input.trim();
+                }
+                else
+                {
+                    validInput = true;
+                }                    
+            }
+            for(int i = 0; i < FoodList.size(); i++){
+                check = FoodList.get(i).getFoodName();
+                if (input.matches(check)) {
+                    fromList = true;
+                }
+            }
+            if (fromList == false) {
+                System.out.println("Please enter a valid food choice");
+                input = stringInput.nextLine();
+                input = input.trim();
+                validInput = false;
+            }
+        }
+        starterFood = input;
+    }
+
+    private void getMainChoice(){
+        System.out.println("Please select 1 Main.");
+        getCourseFoods("Main"); 
+
+        Boolean validInput = false;
+        Boolean fromList = false;
+        List<Food> FoodList = FV.GetFood("Main");
+        String input = stringInput.nextLine();
+        String check;    
+        input = input.trim();
+        while (fromList == false) { 
+            while (validInput == false) {
+                if(input == null|| input.matches("")){
+                    System.out.println("Please enter a valid input");
+                    input = stringInput.nextLine();
+                    input = input.trim();
+                }
+                else
+                {
+                    validInput = true;
+                }                    
+            }
+            for(int i = 0; i < FoodList.size(); i++){
+                check = FoodList.get(i).getFoodName();
+                if (input.matches(check)) {
+                    fromList = true;
+                }
+            }
+            if (fromList == false) {
+                System.out.println("Please enter a valid food choice");
+                input = stringInput.nextLine();
+                input = input.trim();
+                validInput = false;
+            }
+        }
+        mainFood = input;
+    }
+
+    private void getDesertChoice(){
+        System.out.println("Please select 1 Desert.");
+        getCourseFoods("Desert"); 
+
+        Boolean validInput = false;
+        Boolean fromList = false;
+        List<Food> FoodList = FV.GetFood("Desert");
+        String input = stringInput.nextLine();
+        String check;    
+        input = input.trim();
+        while (fromList == false) { 
+            while (validInput == false) {
+                if(input == null|| input.matches("")){
+                    System.out.println("Please enter a valid input");
+                    input = stringInput.nextLine();
+                    input = input.trim();
+                }
+                else
+                {
+                    validInput = true;
+                }                    
+            }
+            for(int i = 0; i < FoodList.size(); i++){
+                check = FoodList.get(i).getFoodName();
+                if (input.matches(check)) {
+                    fromList = true;
+                }
+            }
+            if (fromList == false) {
+                System.out.println("Please enter a valid food choice");
+                input = stringInput.nextLine();
+                input = input.trim();
+                validInput = false;
+            }
+        }
+        desertFood = input;
     }
 
     private void getSpecialFoodRequest(){
