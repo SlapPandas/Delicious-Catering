@@ -28,4 +28,23 @@ public class Food {
         FoodData myFood = new FoodData();
         return myFood.ReadFoodList();
     }
+
+    public List<Food> GetFood(String foodtype)
+    {
+        List<Food> foodlist = new ArrayList<>();
+
+        FoodData fd = new FoodData();
+        List<Food> myFoodList = fd.ReadFoodList();
+
+        for(int i = 0; i < myFoodList.size(); i++)
+        {
+            if(foodtype.equals(myFoodList.get(i).foodCourseType))
+            {
+                foodlist.add(myFoodList.get(i));
+            }
+        }
+
+        return foodlist;
+
+    }
 }
