@@ -389,4 +389,13 @@ public class Order {
         od.WriteNewOrder(num, cName, adress, type, dec, theme, edate, food, bev, specReq, afc, cfc, btc, dtc, addons, addonsTC, covidEq, covCost, canc, tc, dep, depositPaid, remainingAm, childAtt, aduAtt);
     }
 
+    public void GetOrderInfo(String cName, String adress, String type, boolean dec, String theme, Date edate, List<String> food, List<String> bev, List<String> specReq, List<String> addons, boolean covidEq, int childAtt, int aduAtt)
+    {   
+
+        //order num from text file (count)
+        //OrderData od = new OrderData();
+
+        //od.WriteNewOrder(num, cName, adress, type, dec, theme, edate, food, bev, specReq, afc, cfc, btc, dtc, addons, addonsTC, covidEq, covCost, canc, tc, dep, depositPaid, remainingAm, childAtt, aduAtt);
+    }
+
 }
