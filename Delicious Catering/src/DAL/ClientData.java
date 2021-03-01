@@ -13,14 +13,14 @@ public class ClientData {
         for(int i=0;i<myClientStringList.size();i++){
             String[] myHoldingString = myClientStringList.get(i).split("#");
             myClientList.add(new Client(myHoldingString[0], myHoldingString[1], myHoldingString[2], myHoldingString[3], 
-                                        Integer.parseInt(myHoldingString[4]), myHoldingString[5], myHoldingString[6], CheckTrueFalse(myHoldingString[7])));
+                                        myHoldingString[4], myHoldingString[5], myHoldingString[6], CheckTrueFalse(myHoldingString[7])));
         }
         return myClientList;
     }
     public void WriteNewClient(String username,String password,String FirstName,String surname,String contactnumber,String email,String address,Boolean adminRights)
     {
         DataReaderWriter myWriter= new DataReaderWriter("Client");
-        if(myWriter.FileWriter(username+"#"+password+"#"+FirstName+"#"+surname+"#"+contactnumber+"#"+email+"#"+address+"#"+adminRights)!=true){
+        if(myWriter.FileWriter(username+"#"+password+"#"+FirstName+"#"+surname+"#"+contactnumber+"#"+email+"#"+address+"#"+ConvertBoolToLetter(adminRights))!=true){
             JOptionPane.showMessageDialog(null, "Could not write client To file");
         }
     }
@@ -35,6 +35,13 @@ public class ClientData {
                 output = false;
                 break;
         }
+        return output;
+    }
+    private String ConvertBoolToLetter(boolean input)
+    {
+        String output = "";
+        if(input = true){output="T";}
+        if(input = false){output="F";}
         return output;
     }
 }
