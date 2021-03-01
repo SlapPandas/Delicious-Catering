@@ -60,7 +60,7 @@ public class OrderData {
             JOptionPane.showMessageDialog(null, "Could not write beverage To file");
         }
     }
-    public void UpdateOrderCancelation(int ordernr,String clientName,String eventAddress,String eventType,boolean decoration,String theme,Date eventDate,List<String> food,
+    public void UpdateOrder(int ordernr,String clientName,String eventAddress,String eventType,boolean decoration,String theme,Date eventDate,List<String> food,
                               List<String> beverages,List<String> specialFoodRequest,Double adultFood_TotalCost,Double childFood_TotalCost,Double bevarages_TotalCost,
                               Double decoration_TotalCost,List<String> addOns,Double addOns_TotalCost,boolean covidEquipment,Double covidEquip_TotalCost,boolean cancellation,
                               Double totalCost,Double depositDue,boolean depositPaid,Double remainingAmount,int childrenAttending,int adultsAttending)
@@ -77,15 +77,13 @@ public class OrderData {
                 myNewOrderStringList.add(ordernr+"#"+clientName+"#"+eventAddress+"#"+eventType+"#"+ConvertBoolToLetter(decoration)+"#"+theme+"#"+
                 dateFormat.format(eventDate)+"#"+food(food)+"#"+beverages(beverages)+"#"+specialFoodRequests(specialFoodRequest)+"#"+adultFood_TotalCost+"#"+childFood_TotalCost+"#"+
                 bevarages_TotalCost+"#"+decoration_TotalCost+"#"+addons(addOns)+"#"+addOns_TotalCost+"#"+ConvertBoolToLetter(covidEquipment)+"#"+covidEquip_TotalCost+"#"+
-                ConvertBoolToLetter(newCancellation)+"#"+totalCost+"#"+depositDue+"#"+ConvertBoolToLetter(depositPaid)+"#"+remainingAmount+"#"+childrenAttending+"#"+adultsAttending);
+                ConvertBoolToLetter(cancellation)+"#"+totalCost+"#"+depositDue+"#"+ConvertBoolToLetter(depositPaid)+"#"+remainingAmount+"#"+childrenAttending+"#"+adultsAttending);
             }else{
                 myNewOrderStringList.add(myOldOrderStringList.get(i));
             }
         }
         myReadWriter.ClearLife();
         for(int j =0;j<myNewOrderStringList.size();j++){
-            System.out.println(myNewOrderStringList.get(j));
-            System.out.println("yes");
             myReadWriter.FileUpdater(myNewOrderStringList.get(j));
         }
              
@@ -113,8 +111,8 @@ public class OrderData {
     private String ConvertBoolToLetter(boolean input)
     {
         String output = "";
-        if(input = true){output="T";}
-        if(input = false){output="F";}
+        if(input == true){output="T";}
+        if(input == false){output="F";}
         return output;
     }
     private boolean CheckTrueFalse(String input)

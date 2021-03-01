@@ -40,8 +40,8 @@ public class ClientData {
     private String ConvertBoolToLetter(boolean input)
     {
         String output = "";
-        if(input = true){output="T";}
-        if(input = false){output="F";}
+        if(input == true){output="T";}
+        if(input == false){output="F";}
         return output;
     }
 }
