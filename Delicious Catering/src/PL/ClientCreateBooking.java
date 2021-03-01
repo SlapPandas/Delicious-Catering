@@ -14,6 +14,8 @@ public class ClientCreateBooking {
     private Date eventDate;
     private int adultsAttending;
     private int childrenAttending;
+    private Boolean covidEquipment;
+    private List<String> addOns;
 
     public void createNewBooking(){
         clearScreen();
@@ -37,14 +39,15 @@ public class ClientCreateBooking {
         System.out.println("Please select 3 drinks you would like. (Format eg. 2,5,1)");
         // read user input
         System.out.println("Please enter any special requests, press 0 to finish.");
+        getSpecialFoodRequest();
         // read user. repeat until 0 is pressed
 // take in addons list and display
         System.out.println("Please select the add-ons you would like.");
         // read addOns
-        System.out.println("Would you like to make use of Covid-19 equipment?");
-        System.out.println("Please enter Yes or No");
+        getCovidTF();
         // read if client wants covid equipment -Boolean
         // display information collected, allow user to confirm and then send to DAL.
+        stringInput.close();
     }
 
     private void getClientName(){
@@ -224,6 +227,35 @@ public class ClientCreateBooking {
         }   
     }
     
+    private void getCovidTF(){
+        System.out.println("Would you like to make use of Covid-19 equipment?");
+        System.out.println("Please enter Yes or No");     
+        String input;
+        Boolean validInput = false;        
+        while (validInput== false) {
+            input = stringInput.nextLine();  
+            input = input.trim();
+            input = input.toUpperCase();
+            switch (input) {
+                case "YES": 
+                    covidEquipment = true;                
+                    validInput = true;               
+                    break;
+                case "NO":
+                    covidEquipment = false;
+                    validInput = true;
+                    break;
+                default:
+                    System.out.println("Please enter Yes or No");
+                    break;
+            }
+        }
+    }
+    
+    private void getSpecialFoodRequest(){
+
+    }
+
     private static void clearScreen(){
         System.out.print("\033[H\033[2J");
         System.out.flush();
