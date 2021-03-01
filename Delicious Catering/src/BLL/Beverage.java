@@ -20,8 +20,23 @@ public class Beverage {
     public double getBeveragePrice() {
         return beveragePrice;
     }
-    public List<Beverage> DisplayFoodList(){
+    public List<Beverage> DisplayBeverageList(){
         BeverageData mybeverage = new BeverageData();
         return mybeverage.ReadBeveragesList();
+    }
+
+    public List<Beverage> GetBeverages()
+    {
+        BeverageData bevData = new BeverageData();
+        List<Beverage> beveragelist = new ArrayList<>();
+        List<Beverage> myBevList = bevData.ReadBeveragesList();
+
+        for(int i = 0; i < myBevList.size(); i++)
+        {
+            beveragelist.add(myBevList.get(i));
+        }
+
+        return beveragelist;
+
     }
 }

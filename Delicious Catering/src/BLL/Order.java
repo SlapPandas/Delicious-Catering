@@ -150,8 +150,7 @@ public class Order {
         List<Food> choiceList = new ArrayList<>();
 
         FoodData fd = new FoodData();
-
-        List<Food> myFoodList = fd.ReadFoodList();
+        List<Food> myFoodList = fd.ReadFoodList();  //getting the list from the text file
 
         for(int i = 0; i < userchoicesPL.size(); i++)
         {
@@ -160,7 +159,7 @@ public class Order {
                 if(userchoicesPL.get(i).equals(myFoodList.get(j).getFoodName()))
                 {
                     choiceList.add(myFoodList.get(j));
-                }
+                }                
             }
         }
 
@@ -172,7 +171,6 @@ public class Order {
         List<Beverage> choiceList = new ArrayList<>();
 
         BeverageData bd = new BeverageData();
-
         List<Beverage> myBeverageList = bd.ReadBeveragesList();
 
         for(int i = 0; i < userchoicesPL.size(); i++)
@@ -194,16 +192,15 @@ public class Order {
         List<AddOn> choiceList = new ArrayList<>();
 
         AddOnData ad = new AddOnData();
-
-        List<AddOn> myAddOnList = ad.ReadAddOnList();
+        List<AddOn> aoList = ad.ReadAddOnList();
 
         for(int i = 0; i < userchoicesPL.size(); i++)
         {
-            for(int j = 0; j < myAddOnList.size(); j++)
+            for(int j = 0; j < aoList.size(); j++)
             {
-                if(userchoicesPL.get(i).equals(myAddOnList.get(j).getAddOnName()))
+                if(userchoicesPL.get(i).equals(aoList.get(j).getAddOnName()))
                 {
-                    choiceList.add(myAddOnList.get(j));
+                    choiceList.add(aoList.get(j));
                 }
             }
         }
@@ -266,7 +263,6 @@ public class Order {
         {
             addoncost += choicelist.get(i).getAddOnPrice();
         }
-
         return addoncost*nr;
         //cost of beverages multiplied by the number of guests attending
     }
@@ -275,7 +271,7 @@ public class Order {
     {
         double totalcost = 0;
 
-        double addons = CalculateTotalAddOnCost(adultsAttending + childrenAttending, GetAddOnChoices(food));
+        double addons = CalculateTotalAddOnCost(adultsAttending + childrenAttending, GetAddOnChoices(addOns));
         double beverage = CalculateTotalBeverageCost(adultsAttending + childrenAttending, GetBeverageChoices(beverages));
         double childfood = CalculateTotalChildFoodCost(childrenAttending, GetFoodChoices(food));
         double adultfood = CalculateTotalAdultFoodCost(adultsAttending, GetFoodChoices(food));
@@ -390,6 +386,13 @@ public class Order {
         OrderData od = new OrderData();
 
         int num = od.ReadOrderList().size();
+
+        List<Food> flist = new ArrayList<>();
+
+        for(int i = 0; i < flist.size(); i++)
+        {
+            System.out.println(flist.get(i));
+        }
 
         double afc = CalculateTotalAdultFoodCost(num,  GetFoodChoices(food));
         double cfc = CalculateTotalChildFoodCost(num,  GetFoodChoices(food));

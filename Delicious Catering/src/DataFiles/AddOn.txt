@@ -1,0 +1,6 @@
+Tables#150.00
+Chairs#45.00
+Cutlery#50.00
+Waiters#500.00
+Crockery#80.00
+Tents#800.00
