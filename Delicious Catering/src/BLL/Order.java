@@ -382,20 +382,43 @@ public class Order {
         }
     }
 
-    public void RecordOrder(int num, String cName, String adress, String type, boolean dec, String theme, Date edate, List<String> food, List<String> bev, List<String> specReq, double afc, double cfc, double btc, double dtc, List<String> addons, double addonsTC, boolean covidEq, double covCost, boolean canc, double tc, double dep, boolean depositPaid, double remainingAm, int childAtt, int aduAtt)
-    {
-        OrderData od = new OrderData();
-
-        od.WriteNewOrder(num, cName, adress, type, dec, theme, edate, food, bev, specReq, afc, cfc, btc, dtc, addons, addonsTC, covidEq, covCost, canc, tc, dep, depositPaid, remainingAm, childAtt, aduAtt);
-    }
-
     public void GetOrderInfo(String cName, String adress, String type, boolean dec, String theme, Date edate, List<String> food, List<String> bev, List<String> specReq, List<String> addons, boolean covidEq, int childAtt, int aduAtt)
+    throws ParseException
     {   
 
         //order num from text file (count)
-        //OrderData od = new OrderData();
+        OrderData od = new OrderData();
 
-        //od.WriteNewOrder(num, cName, adress, type, dec, theme, edate, food, bev, specReq, afc, cfc, btc, dtc, addons, addonsTC, covidEq, covCost, canc, tc, dep, depositPaid, remainingAm, childAtt, aduAtt);
+        int num = od.ReadOrderList().size();
+
+        double afc = CalculateTotalAdultFoodCost(num,  GetFoodChoices(food));
+        double cfc = CalculateTotalChildFoodCost(num,  GetFoodChoices(food));
+        double btc = CalculateTotalBeverageCost(num,  GetBeverageChoices(bev));
+        double dtc = 0;
+
+        if(dec)
+        {
+            dtc = 2500.00;
+        }
+
+        double addonsTC = CalculateTotalAddOnCost(num, GetAddOnChoices(addons));
+
+        double covCost = 0;
+
+        if(covidEq)
+        {
+            covCost = 1000.00;
+        }
+
+        boolean canc = false;
+        boolean depPaid = false;
+
+        double tc = CalcuateTotalCost();
+        double dep = tc/2;
+        double remainingAm = tc;
+
+
+        od.WriteNewOrder(num, cName, adress, type, dec, theme, edate, food, bev, specReq, afc, cfc, btc, dtc, addons, addonsTC, covidEq, covCost, canc, tc, dep, depPaid, remainingAm, childAtt, aduAtt);
     }
 
 }
