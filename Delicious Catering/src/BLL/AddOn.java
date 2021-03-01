@@ -26,5 +26,19 @@ public class AddOn {
         AddOnData myAddOn = new AddOnData();
         return myAddOn.ReadAddOnList();
     }
+
+    public List<AddOn> GetAddOn()
+    {
+        AddOnData addondata = new AddOnData();
+        List<AddOn> addonlist = new ArrayList<>();
+        List<AddOn> myAddOnList = addondata.ReadAddOnList();
+
+        for(int i = 0; i < myAddOnList.size(); i++)
+        {
+            addonlist.add(myAddOnList.get(i));
+        }
+
+        return addonlist;
+    }
     
 }
