@@ -4,28 +4,49 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import BLL.AddOn;
+import BLL.Beverage;
+import BLL.Food;
+
 public class ClientCreateBooking {
+    // variables needed to run user input and display lists
     Scanner stringInput = new Scanner(System.in);
+    Food FV = new Food();
+    Beverage BV = new Beverage();
+    AddOn AOV = new AddOn();
+    // variables needed to store user input
     private String ClientName;
     private String EventAddress;
     private String EventType;
     private Boolean Decoration;
-    private String theme = "None";    
+    private String theme = "none";    
     private Date eventDate;
     private int adultsAttending;
     private int childrenAttending;
-    private Boolean covidEquipment;
+    // not finished variables
+    private String starterFood;
+    private String mainFood;
+    private String desertFood;
+    private List<String> chosenFood;
+    private List<String> chosenDrinks;
+    private List<String> specialRequests;
     private List<String> addOns;
+    private Boolean covidEquipment;
+
 
     public void createNewBooking(){
         clearScreen();
+
+        getCourseFoods("Main");
+
         getClientName();        
         getEventAddress();        
         getEventType();        
         getDecorationTF();        
         getBookingDate();        
         getAdultsAttending();        
-        getChildrenAttending();        
+        getChildrenAttending();      
+
 // take in food list and display
         System.out.println("Please select 1 Starter.");
         // read user input        
@@ -252,6 +273,15 @@ public class ClientCreateBooking {
         }
     }
     
+    private void getCourseFoods(String MealType){
+        List<Food> FoodList = FV.GetFood(MealType);
+        for(int i = 0; i < FoodList.size() ; i++)
+        {   
+            System.out.println();
+            System.out.println((i+1) + ") "+ FoodList.get(i).getFoodName() + " R" + FoodList.get(i).getFoodPrice());
+        }
+    }
+
     private void getSpecialFoodRequest(){
 
     }
