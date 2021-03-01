@@ -28,10 +28,13 @@ public class FoodData {
         switch(input){
             case "S":
             output = "Starter";
+            break;
             case "M":
             output = "Main";
+            break;
             case "D":
             output = "Dessert";
+            break;
         }
         return output;
     }
@@ -40,10 +43,13 @@ public class FoodData {
         switch(input){
             case "Starter":
             output = "S";
+            break;
             case "Main":
             output = "M";
+            break;
             case "Dessert":
             output = "D";
+            break;
         }
         return output;
     }
