@@ -31,10 +31,9 @@ public class Food {
 
     public List<Food> GetFood(String foodtype)
     {
+        FoodData fooddata = new FoodData();
         List<Food> foodlist = new ArrayList<>();
-
-        FoodData fd = new FoodData();
-        List<Food> myFoodList = fd.ReadFoodList();
+        List<Food> myFoodList = fooddata.ReadFoodList();
 
         for(int i = 0; i < myFoodList.size(); i++)
         {
@@ -44,7 +43,7 @@ public class Food {
             }
         }
 
-        return foodlist;
+        return myFoodList;
 
     }
 }
