@@ -63,14 +63,13 @@ public class OrderData {
     public void UpdateOrderCancelation(int ordernr,String clientName,String eventAddress,String eventType,boolean decoration,String theme,Date eventDate,List<String> food,
                               List<String> beverages,List<String> specialFoodRequest,Double adultFood_TotalCost,Double childFood_TotalCost,Double bevarages_TotalCost,
                               Double decoration_TotalCost,List<String> addOns,Double addOns_TotalCost,boolean covidEquipment,Double covidEquip_TotalCost,boolean cancellation,
-                              Double totalCost,Double depositDue,boolean depositPaid,Double remainingAmount,int childrenAttending,int adultsAttending,boolean newCancellation)
+                              Double totalCost,Double depositDue,boolean depositPaid,Double remainingAmount,int childrenAttending,int adultsAttending)
             throws ParseException
     {
         DataReaderWriter myReadWriter= new DataReaderWriter("Order");
         DateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");  
         List<Order> myOldOrderList = ReadOrderList();
         List<String> myOldOrderStringList = myReadWriter.FileReader();
-        System.out.println(myOldOrderStringList.size());
         List<String> myNewOrderStringList = new ArrayList<>();
 
         for(int i =0;i<myOldOrderStringList.size();i++){
@@ -80,15 +79,14 @@ public class OrderData {
                 bevarages_TotalCost+"#"+decoration_TotalCost+"#"+addons(addOns)+"#"+addOns_TotalCost+"#"+ConvertBoolToLetter(covidEquipment)+"#"+covidEquip_TotalCost+"#"+
                 ConvertBoolToLetter(newCancellation)+"#"+totalCost+"#"+depositDue+"#"+ConvertBoolToLetter(depositPaid)+"#"+remainingAmount+"#"+childrenAttending+"#"+adultsAttending);
             }else{
-                myNewOrderStringList.add(myOldOrderList.get(1).getOrdernr() +"#"+myOldOrderList.get(1).getClientName()+"#"+myOldOrderList.get(1).getEventAddress()+"#"+myOldOrderList.get(1).getEventType()+"#"+ConvertBoolToLetter(decoration)+"#"+theme+"#"+
-                dateFormat.format(eventDate)+"#"+food(food)+"#"+beverages(beverages)+"#"+specialFoodRequests(specialFoodRequest)+"#"+adultFood_TotalCost+"#"+childFood_TotalCost+"#"+
-                bevarages_TotalCost+"#"+decoration_TotalCost+"#"+addons(addOns)+"#"+addOns_TotalCost+"#"+ConvertBoolToLetter(covidEquipment)+"#"+covidEquip_TotalCost+"#"+
-                ConvertBoolToLetter(cancellation)+"#"+totalCost+"#"+depositDue+"#"+ConvertBoolToLetter(depositPaid)+"#"+remainingAmount+"#"+childrenAttending+"#"+adultsAttending);
+                myNewOrderStringList.add(myOldOrderStringList.get(i));
             }
         }
-        myReadWriter.FileWriter("");
-        for(int i =0;i<myNewOrderStringList.size();i++){
-            myReadWriter.FileWriter(myNewOrderStringList.get(i));
+        myReadWriter.ClearLife();
+        for(int j =0;j<myNewOrderStringList.size();j++){
+            System.out.println(myNewOrderStringList.get(j));
+            System.out.println("yes");
+            myReadWriter.FileUpdater(myNewOrderStringList.get(j));
         }
              
     }
