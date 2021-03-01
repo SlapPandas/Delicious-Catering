@@ -51,10 +51,12 @@ public class OrderData {
                               List<String> beverages,List<String> specialFoodRequest,Double adultFood_TotalCost,Double childFood_TotalCost,Double bevarages_TotalCost,
                               Double decoration_TotalCost,List<String> addOns,Double addOns_TotalCost,boolean covidEquipment,Double covidEquip_TotalCost,boolean cancellation,
                               Double totalCost,Double depositDue,boolean depositPaid,Double remainingAmount,int childrenAttending,int adultsAttending)
-    {
+    { 
         DataReaderWriter myWriter= new DataReaderWriter("Order");
+        DateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");  
+        String myDate = dateFormat.format(eventDate);
         if(myWriter.FileWriter(ordernr+"#"+clientName+"#"+eventAddress+"#"+eventType+"#"+ConvertBoolToLetter(decoration)+"#"+theme+"#"+
-                               eventDate+"#"+food(food)+"#"+beverages(beverages)+"#"+specialFoodRequests(specialFoodRequest)+"#"+adultFood_TotalCost+"#"+childFood_TotalCost+"#"+
+                                myDate+"#"+food(food)+"#"+beverages(beverages)+"#"+specialFoodRequests(specialFoodRequest)+"#"+adultFood_TotalCost+"#"+childFood_TotalCost+"#"+
                                 bevarages_TotalCost+"#"+decoration_TotalCost+"#"+addons(addOns)+"#"+addOns_TotalCost+"#"+ConvertBoolToLetter(covidEquipment)+"#"+covidEquip_TotalCost+"#"+
         ConvertBoolToLetter(cancellation)+"#"+totalCost+"#"+depositDue+"#"+ConvertBoolToLetter(depositPaid)+"#"+remainingAmount+"#"+childrenAttending+"#"+adultsAttending)!=true){
             JOptionPane.showMessageDialog(null, "Could not write beverage To file");
@@ -67,7 +69,8 @@ public class OrderData {
             throws ParseException
     {
         DataReaderWriter myReadWriter= new DataReaderWriter("Order");
-        DateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");  
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");  
+        String myDate = dateFormat.format(eventDate);
         List<Order> myOldOrderList = ReadOrderList();
         List<String> myOldOrderStringList = myReadWriter.FileReader();
         List<String> myNewOrderStringList = new ArrayList<>();
@@ -75,16 +78,16 @@ public class OrderData {
         for(int i =0;i<myOldOrderStringList.size();i++){
             if(ordernr == myOldOrderList.get(i).getOrdernr()){
                 myNewOrderStringList.add(ordernr+"#"+clientName+"#"+eventAddress+"#"+eventType+"#"+ConvertBoolToLetter(decoration)+"#"+theme+"#"+
-                dateFormat.format(eventDate)+"#"+food(food)+"#"+beverages(beverages)+"#"+specialFoodRequests(specialFoodRequest)+"#"+adultFood_TotalCost+"#"+childFood_TotalCost+"#"+
+                myDate+"#"+food(food)+"#"+beverages(beverages)+"#"+specialFoodRequests(specialFoodRequest)+"#"+adultFood_TotalCost+"#"+childFood_TotalCost+"#"+
                 bevarages_TotalCost+"#"+decoration_TotalCost+"#"+addons(addOns)+"#"+addOns_TotalCost+"#"+ConvertBoolToLetter(covidEquipment)+"#"+covidEquip_TotalCost+"#"+
                 ConvertBoolToLetter(cancellation)+"#"+totalCost+"#"+depositDue+"#"+ConvertBoolToLetter(depositPaid)+"#"+remainingAmount+"#"+childrenAttending+"#"+adultsAttending);
             }else{
                 myNewOrderStringList.add(myOldOrderStringList.get(i));
             }
         }
-        myReadWriter.ClearLife();
+        //myReadWriter.ClearLife();
         for(int j =0;j<myNewOrderStringList.size();j++){
-            myReadWriter.FileUpdater(myNewOrderStringList.get(j));
+            //myReadWriter.FileUpdater(myNewOrderStringList.get(j));
         }
              
     }
