@@ -4,6 +4,7 @@ import java.time.*;
 import java.util.*;
 import DAL.*;
 import java.text.*;
+import java.lang.Math.*;
 
 public class Order {
     
@@ -239,7 +240,7 @@ public class Order {
 
         childfoodtc = sum * nr * 0.7; //food for children are calculated at 70% of adult fod price
 
-        return childfoodtc;
+        return Math.round(childfoodtc);
     }
 
     public double CalculateTotalBeverageCost(int nr, List<Beverage> choicelist)
@@ -267,24 +268,24 @@ public class Order {
         //cost of beverages multiplied by the number of guests attending
     }
 
-    public double CalcuateTotalCost()
+    public double CalcuateTotalCost(int adults, int children, List<String> addonList, List<String> bevList, List<String> foodList, boolean dec, boolean covid)
     {
         double totalcost = 0;
 
-        double addons = CalculateTotalAddOnCost(adultsAttending + childrenAttending, GetAddOnChoices(addOns));
-        double beverage = CalculateTotalBeverageCost(adultsAttending + childrenAttending, GetBeverageChoices(beverages));
-        double childfood = CalculateTotalChildFoodCost(childrenAttending, GetFoodChoices(food));
-        double adultfood = CalculateTotalAdultFoodCost(adultsAttending, GetFoodChoices(food));
+        double addons = CalculateTotalAddOnCost(adults + children, GetAddOnChoices(addonList));
+        double beverage = CalculateTotalBeverageCost(adults + children, GetBeverageChoices(bevList));
+        double childfood = CalculateTotalChildFoodCost(children, GetFoodChoices(foodList));
+        double adultfood = CalculateTotalAdultFoodCost(adults, GetFoodChoices(foodList));
 
         double decocost = 0;
         double covidcost = 0;
 
-        if(decoration)
+        if(dec)
         {
             decocost = 2500.00;
         }
 
-        if(covidEquipment)
+        if(covid)
         {
             covidcost = 1000.00;
         }
@@ -385,18 +386,13 @@ public class Order {
         //order num from text file (count)
         OrderData od = new OrderData();
 
-        int num = od.ReadOrderList().size();
+        int num = od.ReadOrderList().size()+1;
 
         List<Food> flist = new ArrayList<>();
 
-        for(int i = 0; i < flist.size(); i++)
-        {
-            System.out.println(flist.get(i));
-        }
-
-        double afc = CalculateTotalAdultFoodCost(num,  GetFoodChoices(food));
-        double cfc = CalculateTotalChildFoodCost(num,  GetFoodChoices(food));
-        double btc = CalculateTotalBeverageCost(num,  GetBeverageChoices(bev));
+        double afc = CalculateTotalAdultFoodCost(aduAtt,  GetFoodChoices(food));
+        double cfc = CalculateTotalChildFoodCost(childAtt,  GetFoodChoices(food));
+        double btc = CalculateTotalBeverageCost(aduAtt + childAtt,  GetBeverageChoices(bev));
         double dtc = 0;
 
         if(dec)
@@ -404,7 +400,7 @@ public class Order {
             dtc = 2500.00;
         }
 
-        double addonsTC = CalculateTotalAddOnCost(num, GetAddOnChoices(addons));
+        double addonsTC = CalculateTotalAddOnCost(aduAtt + childAtt, GetAddOnChoices(addons));
 
         double covCost = 0;
 
@@ -416,10 +412,9 @@ public class Order {
         boolean canc = false;
         boolean depPaid = false;
 
-        double tc = CalcuateTotalCost();
+        double tc = CalcuateTotalCost(aduAtt,childAtt, addons, bev, food, dec, covidEq);
         double dep = tc/2;
         double remainingAm = tc;
-
 
         od.WriteNewOrder(num, cName, adress, type, dec, theme, edate, food, bev, specReq, afc, cfc, btc, dtc, addons, addonsTC, covidEq, covCost, canc, tc, dep, depPaid, remainingAm, childAtt, aduAtt);
     }

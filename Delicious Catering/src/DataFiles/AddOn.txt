@@ -1,5 +1,5 @@
 Tables#150.00
-Chairs#45.00
+Chairs#45.95
 Cutlery#50.00
 Waiters#500.00
 Crockery#80.00

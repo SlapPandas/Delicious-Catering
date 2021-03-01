@@ -26,30 +26,9 @@ public class App {
         //    System.out.println(myfood.get(i).getFoodName() +"       "+ myfood.get(i).getFoodCourseType());
         //}
 
-        Order o = new Order();
+        Client c = new Client();
 
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-            Date date = new Date();
-
-        List<String> f = new ArrayList<>();
-        f.add("Soup");
-        f.add("Pizza");
-        f.add("Cake");
-
-        List<String> b = new ArrayList<>();
-        b.add("Coke");
-        b.add("Sprite");
-
-        List<String> s = new ArrayList<>();
-        s.add("vegan");
-        s.add("no nuts");
-
-        List<String> a = new ArrayList<>();
-        a.add("Chairs");
-        a.add("Tables");
-        a.add("Cutlery");
-
-        o.GetOrderInfo("Matin", "Water", "Wedding", true, "anime", date, f, b, s, a, true, 4, 7);
+        c.RegisterClient("m1", "paswrd", "Matin", "deWet", "0123456789", "m@gmail.com", "waterkloof", false);
 
     }
 }
