@@ -8,7 +8,6 @@ import BLL.AddOn;
 import BLL.Beverage;
 import BLL.Food;
 import BLL.Order;
-import jdk.nashorn.api.tree.WhileLoopTree;
 
 public class ClientCreateBooking {
     // variables needed to run user input and display lists
@@ -26,16 +25,15 @@ public class ClientCreateBooking {
     private Date eventDate;
     private int adultsAttending;
     private int childrenAttending;
-    private String starterFood;
-    private String mainFood;
-    private String desertFood;
+    private String starterChosen;
+    private String mainChosen;
+    private String desertChosen;
     private List<String> chosenFood;
     private List<String> chosenDrinks;
-
-    private Boolean covidEquipment;
-        // not finished variables
     private List<String> specialRequests;
     private List<String> addOns;
+    private Boolean covidEquipment;
+    
     
 
 
@@ -64,19 +62,17 @@ public class ClientCreateBooking {
         getDesertChoice();      
         clearScreen();
         getDrinksChoice();
+        clearScreen();        
+        getSpecialFoodRequest();    
+        clearScreen(); 
+        getAdOnList();   
         clearScreen();
-
-        System.out.println("Please enter any special requests, press 0 to finish.");
-        getSpecialFoodRequest();
-        // read user. repeat until 0 is pressed
-        
-        System.out.println("Please select the add-ons you would like.");
-        // take in addons list and display
-        // read addOns
         getCovidTF();
+        clearScreen();
+        displayEnteredInfo();
 
         // display information collected, allow user to confirm and then send to DAL.
-        //OV.GetOrderInfo(ClientName, EventAddress, EventType, Decoration, theme, eventDate, chosenFood, chosenDrinks, specialRequests, addOns, covidEquipment, childrenAttending, adultsAttending);
+        // pass order info using getorderinfo
         stringInput.close();
     }
 
@@ -316,6 +312,8 @@ public class ClientCreateBooking {
                 check = FoodList.get(i).getFoodName();
                 if (input.matches(check)) {
                     fromList = true;
+                    starterChosen = input;
+                    chosenFood.add(input);
                 }
             }
             if (fromList == false) {
@@ -325,7 +323,6 @@ public class ClientCreateBooking {
                 validInput = false;
             }
         }
-        chosenFood.add(input);
     }
 
     private void getMainChoice(){
@@ -354,6 +351,8 @@ public class ClientCreateBooking {
                 check = FoodList.get(i).getFoodName();
                 if (input.matches(check)) {
                     fromList = true;
+                    chosenFood.add(input);
+                    mainChosen = input;
                 }
             }
             if (fromList == false) {
@@ -362,8 +361,7 @@ public class ClientCreateBooking {
                 input = input.trim();
                 validInput = false;
             }
-        }
-    chosenFood.add(input);
+        }    
     }
 
     private void getDesertChoice(){
@@ -392,6 +390,8 @@ public class ClientCreateBooking {
                 check = FoodList.get(i).getFoodName();
                 if (input.matches(check)) {
                     fromList = true;
+                    desertChosen = input;
+                    chosenFood.add(input);
                 }
             }
             if (fromList == false) {
@@ -401,7 +401,6 @@ public class ClientCreateBooking {
                 validInput = false;
             }
         }
-        chosenFood.add(input);
     }
 
     private void getDrinksChoice(){
@@ -544,12 +543,141 @@ public class ClientCreateBooking {
     }
 
     private void getSpecialFoodRequest(){
-        
+        System.out.println("Please enter any special requests.");
+        Boolean exitInput = false;
+        Boolean validInput = false;        
+        String input;
+        while (exitInput == false) {
+            System.out.println("Press 0 to exit");
+            input = stringInput.nextLine();
+            input = input.trim();
+            while (validInput == false) {
+                if(input == null|| input.matches("")){
+                    System.out.println("Please enter a valid input");
+                    input = stringInput.nextLine();
+                    input = input.trim();
+                }
+                else
+                {
+                    validInput = true;
+                }                    
+            }
+            switch (input) {
+                case "0":
+                    exitInput = true;
+                    break;            
+                default:
+                    specialRequests.add(input);
+                    validInput = false;
+                    break;
+            }
+        }
+    }
+
+    private void getAdOnList(){
+        System.out.println("Please right the name of the add ons you would like.");
+        Boolean exitInput = false;
+        Boolean validInput = false;
+        String input;
+        String check;
+        List<AddOn> addOnsLocal = AOV.GetAddOn();
+        while (exitInput == false) {
+            displayAddOnList();
+            System.out.println("enter 0 if you would like to exit.");
+            input = stringInput.nextLine();
+            input = input.trim();
+            while (validInput == false) {
+                if(input == null|| input.matches("")){
+                    System.out.println("Please enter a valid input");
+                    input = stringInput.nextLine();
+                    input = input.trim();
+                }
+                else
+                {
+                    validInput = true;
+                }
+            }
+            validInput = false;
+            if (input.matches("0")) 
+            {
+                exitInput = true;
+            } 
+            else 
+            {
+                for (int k = 0; k < addOns.size(); k++) {
+                    check = addOnsLocal.get(k).getAddOnName();
+                    if (input.matches(check)) 
+                    {
+                        addOns.add(input);                   
+                    }
+                    else
+                    {
+                        System.out.println("Please enter an addon from the displayed list.");
+                    }
+                }
+            }            
+            // validate addon selected is in textfile and add to addons list
+        }
+    }
+
+    private void displayAddOnList(){
+        List<AddOn> AddOnList = AOV.GetAddOn();
+        for (int g = 0; g < AddOnList.size(); g++) {
+            System.out.println(AddOnList.get(g).getAddOnName() + " R" + AddOnList.get(g).getAddOnPrice());
+        }
     }
 
     private static void clearScreen(){
         System.out.print("\033[H\033[2J");
         System.out.flush();
+    }
+
+    private void displayEnteredInfo(){
+        System.out.println("Please confirm this is your order:");
+        System.out.println("Your name is: " + ClientName + ", the " + EventType + " will be on: " + eventDate.toString() + " at: "+ EventAddress);
+        if (Decoration == false) {
+            System.out.println("You do not want decoration, ");
+        } else {
+            System.out.println("You do want decoration, and you want the theme to be: " + theme);
+        }
+        System.out.println("There will be: " + Integer.toString(adultsAttending) + " adults addending and " + Integer.toString(childrenAttending) + "children attending");        
+        System.out.println("The food you have chosen to eat is: " + starterChosen + ", " + mainChosen + ", " +  desertChosen);        
+        System.out.println("The drinks you have selected are: ");
+        for (int i = 0; i < chosenDrinks.size(); i++) {
+            System.out.println(chosenDrinks.get(i).toString());
+        }
+        System.out.print("And you have ");
+        if (covidEquipment == false) {
+            System.out.println("not chosen to use covid equipment");
+        } else {
+            System.out.println("chosen to use covid equipment");
+        }
+    }
+
+    private void checkValidOrder(){
+        System.out.println("Is your order correct?");
+        System.out.println("Please enter Yes or No");        
+        String input;
+        Boolean validInput = false;        
+        while (validInput== false) {
+            input = stringInput.nextLine();  
+            input = input.trim();
+            input = input.toUpperCase();
+            switch (input) {
+                case "YES": 
+                    System.out.println("Order has been added.");
+                    OV.GetOrderInfo(ClientName, eventDate, EventType, theme, eventDate, chosenFood, chosenDrinks, specialRequests, addOns, covidEquipment, childrenAttending, adultsAttending);
+                    validInput = true;
+                    break;
+                case "NO":
+                    System.out.println("order has been erased.");
+                    validInput = true;
+                    break;
+                default:
+                    System.out.println("Please enter Yes or No");
+                    break;
+            }
+        } 
     }
 
 }
