@@ -332,11 +332,13 @@ public class Order {
     }
 
     //runs when client chooses to pay deposit
-    public void CheckDeposit(int ordernr, String clientname) throws ParseException   
+    public boolean CheckDeposit(int ordernr, String clientname) throws ParseException   
     {
 
         OrderData od = new OrderData();
         List<Order> myOrderList = od.ReadOrderList();
+
+        boolean cancelledReturn = false;
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
             Date date = new Date();
@@ -347,7 +349,6 @@ public class Order {
         {
             if(ordernr == myOrderList.get(i).ordernr && clientname.equals(myOrderList.get(i).clientName))
             {
-
                 long difference_In_Time 
                 = myOrderList.get(i).eventDate.getTime() - date.getTime(); 
                 long difference_In_Days = (difference_In_Time / (1000 * 60 * 60 * 24)) % 365;
@@ -360,9 +361,12 @@ public class Order {
                 else
                 {
                     myOrderList.get(i).cancellation = true;     //cancel the order
+                    cancelledReturn = true;
                 }
             }
         }
+
+        return cancelledReturn;
     }
 
     public void Cancellation(int ordernr, String username) throws ParseException
