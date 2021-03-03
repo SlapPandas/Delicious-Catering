@@ -379,7 +379,7 @@ public class Order {
         }
     }
 
-    public void GetOrderInfo(String cName, String adress, String type, boolean dec, String theme, Date edate, List<String> food, List<String> bev, List<String> specReq, List<String> addons, boolean covidEq, int childAtt, int aduAtt)
+    public int GetOrderInfo(String cName, String adress, String type, boolean dec, String theme, Date edate, List<String> food, List<String> bev, List<String> specReq, List<String> addons, boolean covidEq, int childAtt, int aduAtt)
     throws ParseException
     {   
 
@@ -417,6 +417,8 @@ public class Order {
         double remainingAm = tc;
 
         od.WriteNewOrder(num, cName, adress, type, dec, theme, edate, food, bev, specReq, afc, cfc, btc, dtc, addons, addonsTC, covidEq, covCost, canc, tc, dep, depPaid, remainingAm, childAtt, aduAtt);
+    
+        return ordernr;
     }
 
 }
