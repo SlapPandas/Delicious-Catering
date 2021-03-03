@@ -2,6 +2,9 @@ package BLL;
 
 import java.time.*;
 import java.util.*;
+
+import org.graalvm.compiler.core.common.type.ArithmeticOpTable.BinaryOp.Add;
+
 import DAL.*;
 import java.text.*;
 import java.lang.Math.*;
@@ -423,6 +426,93 @@ public class Order {
         od.WriteNewOrder(num, cName, adress, type, dec, theme, edate, food, bev, specReq, afc, cfc, btc, dtc, addons, addonsTC, covidEq, covCost, canc, tc, dep, depPaid, remainingAm, childAtt, aduAtt);
     
         return ordernr;
+    }
+
+    public List<Order> GetAllOrders()
+    throws ParseException
+    {
+        OrderData od = new OrderData();
+
+        List<Order> orderList = od.ReadOrderList();
+
+        return orderList;
+
+    }
+
+    public boolean CheckOrderExists(int nr) throws ParseException
+    {
+        boolean exists = false;
+
+        OrderData od = new OrderData();
+
+        List<Order> orderList = od.ReadOrderList();
+
+        for(int i = 0; i < orderList.size(); i++)
+        {
+            if (orderList.get(i).ordernr == nr)
+            {
+                exists = true;
+                break;
+            } 
+        }
+        return exists;
+    }
+
+    public boolean CheckFoodExists(String food) throws ParseException
+    {
+        boolean exists = false;
+
+        FoodData od = new FoodData();
+
+        List<Food> foodList = od.ReadFoodList();
+
+        for(int i = 0; i < foodList.size(); i++)
+        {
+            if (foodList.get(i).getFoodName().equals(food))
+            {
+                exists = true;
+                break;
+            } 
+        }
+        return exists;
+    }
+
+    public boolean CheckBeverageExists(String beverage) throws ParseException
+    {
+        boolean exists = false;
+
+        BeverageData od = new BeverageData();
+
+        List<Beverage> beverageList = od.ReadBeveragesList();
+
+        for(int i = 0; i < beverageList.size(); i++)
+        {
+            if (beverageList.get(i).getBeverageName().equals(beverage))
+            {
+                exists = true;
+                break;
+            } 
+        }
+        return exists;
+    }
+
+    public boolean CheckAddOnsExists(String addon) throws ParseException
+    {
+        boolean exists = false;
+
+        AddOnData od = new AddOnData();
+
+        List<AddOn> addonList = od.ReadAddOnList();
+
+        for(int i = 0; i < addonList.size(); i++)
+        {
+            if (addonList.get(i).getAddOnName().equals(addon))
+            {
+                exists = true;
+                break;
+            } 
+        }
+        return exists;
     }
 
 }
