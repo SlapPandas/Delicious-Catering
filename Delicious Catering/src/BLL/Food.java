@@ -47,7 +47,7 @@ public class Food {
 
     }
 
-    public boolean CheckFoodExists(String food) throws ParseException
+    public boolean CheckFoodExists(String food)
     {
         boolean exists = false;
 

@@ -42,7 +42,7 @@ public class AddOn {
     }
 
     
-    public boolean CheckAddOnsExists(String addon) throws ParseException
+    public boolean CheckAddOnsExists(String addon)
     {
         boolean exists = false;
 
