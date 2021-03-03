@@ -365,14 +365,14 @@ public class Order {
         }
     }
 
-    public void Cancellation(int ordernr, String clientname) throws ParseException
+    public void Cancellation(int ordernr, String username) throws ParseException
     {
         OrderData od = new OrderData();
         List<Order> myOrderList = od.ReadOrderList(); 
 
         for(int i = 0; i < myOrderList.size(); i++)
         {
-            if(ordernr == myOrderList.get(i).ordernr && clientname.equals(myOrderList.get(i).clientName))
+            if(ordernr == myOrderList.get(i).ordernr && username.equals(myOrderList.get(i).clientName))
             {
                 myOrderList.get(i).cancellation = true;     //cancel the order
             }
