@@ -40,5 +40,25 @@ public class AddOn {
 
         return addonlist;
     }
+
+    
+    public boolean CheckAddOnsExists(String addon) throws ParseException
+    {
+        boolean exists = false;
+
+        AddOnData od = new AddOnData();
+
+        List<AddOn> addonList = od.ReadAddOnList();
+
+        for(int i = 0; i < addonList.size(); i++)
+        {
+            if (addonList.get(i).getAddOnName().equals(addon))
+            {
+                exists = true;
+                break;
+            } 
+        }
+        return exists;
+    }
     
 }

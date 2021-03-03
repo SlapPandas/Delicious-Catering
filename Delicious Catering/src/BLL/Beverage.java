@@ -39,4 +39,23 @@ public class Beverage {
         return beveragelist;
 
     }
+
+    public boolean CheckBeverageExists(String beverage) throws ParseException
+    {
+        boolean exists = false;
+
+        BeverageData od = new BeverageData();
+
+        List<Beverage> beverageList = od.ReadBeveragesList();
+
+        for(int i = 0; i < beverageList.size(); i++)
+        {
+            if (beverageList.get(i).getBeverageName().equals(beverage))
+            {
+                exists = true;
+                break;
+            } 
+        }
+        return exists;
+    }
 }
