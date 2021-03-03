@@ -1,6 +1,7 @@
 package PL;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -37,7 +38,7 @@ public class ClientCreateBooking {
     
 
 
-    public void createNewBooking(){
+    public void createNewBooking() throws ParseException{
         chosenDrinks.clear();
         chosenFood.clear();
         specialRequests.clear();
@@ -45,7 +46,8 @@ public class ClientCreateBooking {
         theme = "none";
         Decoration = false;
         covidEquipment = false;        
-        clearScreen();        
+        clearScreen();   
+        // do i need to get client name from the text file?     
         getClientName();        
         getEventAddress();        
         getEventType();        
@@ -70,6 +72,7 @@ public class ClientCreateBooking {
         getCovidTF();
         clearScreen();
         displayEnteredInfo();
+        checkValidOrder(); 
 
         // display information collected, allow user to confirm and then send to DAL.
         // pass order info using getorderinfo
@@ -203,7 +206,7 @@ public class ClientCreateBooking {
     private void getAdultsAttending(){
         System.out.println("How many Adults will be attending?");
         String input;
-        int output;
+        int output = 0;
         Boolean validInput = false;
         input = stringInput.nextLine(); 
         input = input.trim();    
@@ -224,13 +227,13 @@ public class ClientCreateBooking {
                 }                    
             }
         }
-        adultsAttending = Integer.parseInt(input); 
+        adultsAttending = output; 
     }
 
     private void getChildrenAttending(){
         System.out.println("How many children will be attending?");
         String input;
-        int output;
+        int output=0;
         Boolean validInput = false;
         input = stringInput.nextLine();   
         input = input.trim(); 
@@ -241,6 +244,7 @@ public class ClientCreateBooking {
                 input = input.trim(); 
             }
             else
+            {                
                 try {
                     output = Integer.parseInt(input.trim());
                     validInput = true;
@@ -248,9 +252,10 @@ public class ClientCreateBooking {
                     System.out.println("Please enter a valid input");
                     input = stringInput.nextLine();
                     input = input.trim(); 
-                }
-                
-        }   
+                } 
+            }                   
+        } 
+        childrenAttending = output;
     }
     
     private void getCovidTF(){
@@ -654,7 +659,7 @@ public class ClientCreateBooking {
         }
     }
 
-    private void checkValidOrder(){
+    private void checkValidOrder() throws ParseException {
         System.out.println("Is your order correct?");
         System.out.println("Please enter Yes or No");        
         String input;
@@ -666,7 +671,8 @@ public class ClientCreateBooking {
             switch (input) {
                 case "YES": 
                     System.out.println("Order has been added.");
-                    OV.GetOrderInfo(ClientName, eventDate, EventType, theme, eventDate, chosenFood, chosenDrinks, specialRequests, addOns, covidEquipment, childrenAttending, adultsAttending);
+                    int ordernumber = OV.GetOrderInfo(ClientName, EventAddress, EventType, Decoration,  theme, eventDate, chosenFood, chosenDrinks, specialRequests, addOns, covidEquipment, childrenAttending, adultsAttending);     
+                    System.out.println("Your order number is: " + ordernumber);            
                     validInput = true;
                     break;
                 case "NO":
