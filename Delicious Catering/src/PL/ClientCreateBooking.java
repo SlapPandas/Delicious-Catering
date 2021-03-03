@@ -407,31 +407,36 @@ public class ClientCreateBooking {
     }
 // needs to gho to BLL
     private void getDrinksChoice(){
-        System.out.println("How many different drinks would you like? (1, 2 or 3)");
-        Boolean choicesMade = false;
+        
+        Boolean validChoice = false;
         Boolean validInput = false;
-        String input = stringInput.nextLine();
         String check;
         List<Beverage> beverageList = BV.GetBeverages();
+
+        System.out.println("How many different drinks would you like? (1, 2 or 3)");
+        String input = stringInput.nextLine();
         input = input.trim();
-        while (choicesMade == false){
-            while (validInput == false){
-                if(input == null|| input.matches("")){
-                    System.out.println("Please enter a valid input");
+
+        while (validInput == false && (input.matches("1")|| input.matches("2")|| input.matches("3"))){
+            if(input == null|| input.matches("")){
+                System.out.println("Please enter a valid input");
+                input = stringInput.nextLine();
+                input = input.trim();
+            }
+            else
+            {
+                validInput = true;
+            }                
+        }
+        while (validChoice == false){
+            for (int i = 0; i < Integer.parseInt(input); i++) {
+                validInput = false;
+                String userinputBeverage = stringInput.nextLine();
+                validChoice = BV.CheckBeverageExists(userinputBeverage);
+                if(validChoice){
+                    chosenDrinks.add(userinputBeverage);
                     input = stringInput.nextLine();
                     input = input.trim();
-                }
-                else
-                {
-                    validInput = true;
-                }                
-            }
-            switch (input) {
-                case "1": 
-                {  
-                    displayDrinksList();
-                    System.out.println("Please type the name of the drink you would like");  
-                    validInput = false; 
                     while (validInput == false){
                         if(input == null|| input.matches("")){
                             System.out.println("Please enter a valid input");
@@ -441,98 +446,28 @@ public class ClientCreateBooking {
                         else
                         {
                             validInput = true;
-                        }    
+                        }                
                     }
-                    for (int i = 0; i < beverageList.size(); i++) {
-                        check = beverageList.get(i).getBeverageName();
-                        if (input.matches(check)) {
-                            validInput = true;
-                            choicesMade = true;
-                            chosenDrinks.add(input);
-                            chosenDrinks.add("none");
-                            chosenDrinks.add("none");
-                        }
-                        if (validInput == false) {
-                            System.out.println("Please enter a drink that is displayed");
-                            input = stringInput.nextLine();
-                            input.trim();
-                            validInput = false;
-                        }
-                    }                                                  
-                    break;
                 }
-                case "2":
-                {
-                displayDrinksList();
-                    System.out.println("Please type the name of the 1st drink you would like");
-                    for (int i = 0; i < 2; i++) {
-                        validInput = false; 
-                        while (validInput == false){
-                            if(input == null|| input.matches("")){
-                                System.out.println("Please enter a valid input");
-                                input = stringInput.nextLine();
-                                input = input.trim();
-                            }
-                            else
-                            {
-                                validInput = true;
-                            }    
-                        }
-                        for (int k = 0; k < beverageList.size(); k++) {
-                            check = beverageList.get(k).getBeverageName();
-                            if (input.matches(check)) {
-                                validInput = true;
-                                choicesMade = true;
-                                chosenDrinks.add(input);
-                            }
-                            if (validInput == false) {
-                                System.out.println("Please enter a drink that is displayed");
-                                input = stringInput.nextLine();
-                                input.trim();
-                                validInput = false;
-                            }
-                        }
-                    } 
-                    chosenDrinks.add("none");                    
-                    break;
-                }
-                case "3":
-                {
+                else{
+                    System.out.println("please enter a valid drink");
+                    System.out.println();
                     displayDrinksList();
-                        System.out.println("Please type the name of the 1st drink you would like");
-                        for (int i = 0; i < 3; i++) {
-                            validInput = false; 
-                            while (validInput == false){
-                                if(input == null|| input.matches("")){
-                                    System.out.println("Please enter a valid input");
-                                    input = stringInput.nextLine();
-                                    input = input.trim();
-                                }
-                                else
-                                {
-                                    validInput = true;
-                                }    
-                            }
-                            for (int j = 0; j < beverageList.size(); j++) {
-                                check = beverageList.get(j).getBeverageName();
-                                if (input.matches(check)) {
-                                    validInput = true;
-                                    choicesMade = true;
-                                    chosenDrinks.add(input);
-                                }
-                                if (validInput == false) {
-                                    System.out.println("Please enter a drink that is displayed");
-                                    input = stringInput.nextLine();
-                                    input.trim();
-                                    validInput = false;
-                                }
-                            }
-                        }                   
-                    break;
-                }                           
-                default:
-                    validInput = false;                   
-                    break;
+                    i--;
+                    input = stringInput.nextLine();
+                    input = input.trim();
+                    while (validInput == false || input.matches("")){
+                        if(input == null|| input.matches("")){
+                            System.out.println("Please enter a valid input");
+                            input = stringInput.nextLine();
+                            input = input.trim();
+                        }
+                        else
+                        {
+                            validInput = true;
+                        }                
+                    }
+                }
             }
         }
     }

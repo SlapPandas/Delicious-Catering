@@ -40,7 +40,7 @@ public class Beverage {
 
     }
 
-    public boolean CheckBeverageExists(String beverage) throws ParseException
+    public boolean CheckBeverageExists(String beverage)
     {
         boolean exists = false;
 
