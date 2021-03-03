@@ -46,13 +46,11 @@ public class ClientCreateBooking {
         theme = "none";
         Decoration = false;
         covidEquipment = false;        
-        clearScreen();   
-        // do i need to get client name from the text file?     
+        clearScreen();    
         getClientName();        
         getEventAddress();        
         getEventType();        
         getDecorationTF();
-        // do i need to do availibility check?        
         getBookingDate();        
         getAdultsAttending();        
         getChildrenAttending();
@@ -290,7 +288,7 @@ public class ClientCreateBooking {
             System.out.println(FoodList.get(i).getFoodName() + " R" + FoodList.get(i).getFoodPrice());
         }
     }
-
+//bll
     private  void getStarterChoice(){
         System.out.println("Please select 1 Starter.");
         getCourseFoods("Starter"); 
@@ -329,7 +327,7 @@ public class ClientCreateBooking {
             }
         }
     }
-
+//bll
     private void getMainChoice(){
         System.out.println("Please select 1 Main.");
         getCourseFoods("Main"); 
@@ -368,7 +366,7 @@ public class ClientCreateBooking {
             }
         }    
     }
-
+// bLL
     private void getDesertChoice(){
         System.out.println("Please select 1 Desert.");
         getCourseFoods("Desert"); 
@@ -407,7 +405,7 @@ public class ClientCreateBooking {
             }
         }
     }
-
+// needs to gho to BLL
     private void getDrinksChoice(){
         System.out.println("How many different drinks would you like? (1, 2 or 3)");
         Boolean choicesMade = false;
@@ -578,7 +576,7 @@ public class ClientCreateBooking {
             }
         }
     }
-
+//bll
     private void getAdOnList(){
         System.out.println("Please right the name of the add ons you would like.");
         Boolean exitInput = false;
@@ -621,7 +619,6 @@ public class ClientCreateBooking {
                     }
                 }
             }            
-            // validate addon selected is in textfile and add to addons list
         }
     }
 

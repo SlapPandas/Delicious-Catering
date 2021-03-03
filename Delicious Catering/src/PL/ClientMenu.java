@@ -3,8 +3,13 @@ package PL;
 import java.text.ParseException;
 import java.util.*;
 
+import BLL.Order;
+
+
 public class ClientMenu {
-    public void runClientMenu(){
+    Scanner stringInput = new Scanner(System.in);
+    Order OV = new Order();
+    public void runClientMenu(){        
         clearScreen();
         printClientMenu();
         clientMenuChoice(clientMenuInput());
@@ -73,7 +78,38 @@ public class ClientMenu {
     }
 
     private void payBooking(){
+        int orderID;
+        String username;
+        Boolean validInput = false;
+        String input;
+        input = stringInput.nextLine();
+        while(validInput == false){  
+            System.out.println("Please enter your username:");
+                    
+            if(input == null|| input.matches("")){
+                System.out.println("Please enter a valid input");
+                input = stringInput.nextLine();
+                input = input.trim();
+            }
+            else
+                validInput = true;
+        }   
+        validInput = false;
+        Boolean validID = false;
+        while (validID == false) {
+            while (validInput == false) {                
+                System.out.println("Please enter your order ID");   
+                input = stringInput.nextLine();
+            if(input == null|| input.matches("")){
+                System.out.println("Please enter a valid input");
+                input = stringInput.nextLine();
+                input = input.trim();
+            }
+            else
+                validInput = true;
+            }
 
+        }
     }
 
     private static void clearScreen(){
