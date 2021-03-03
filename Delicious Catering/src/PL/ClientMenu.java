@@ -1,5 +1,6 @@
 package PL;
 
+import java.text.ParseException;
 import java.util.*;
 
 public class ClientMenu {
@@ -12,7 +13,7 @@ public class ClientMenu {
     private void printClientMenu(){
         System.out.println("1: Make a booking");
         System.out.println("2: Cancel a booking");
-        System.out.println("3: Check up on booking");
+        System.out.println("3: Pay for a booking");
         System.out.println("4: Back to main menu");
         System.out.println("0: exit");
     }
@@ -36,7 +37,7 @@ public class ClientMenu {
         return choice;
     }
 
-    private void clientMenuChoice(int choice){
+    private void clientMenuChoice(int choice) throws ParseException{
         Boolean validInput = false;
         while(validInput = false){
             switch(choice){
@@ -53,7 +54,7 @@ public class ClientMenu {
                     
                     break;
                 case 3:
-                    checkBooking();
+                    payBooking();
                     
                     break;
                 case 4:
@@ -71,7 +72,7 @@ public class ClientMenu {
 
     }
 
-    private void checkBooking(){
+    private void payBooking(){
 
     }
 
