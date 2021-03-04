@@ -12,7 +12,12 @@ public class ClientMenu {
     public void runClientMenu(){        
         clearScreen();
         printClientMenu();
-        clientMenuChoice(clientMenuInput());
+        try {
+            clientMenuChoice(clientMenuInput());
+        } catch (Exception e) {
+
+        }
+        
     }
 
     private void printClientMenu(){
@@ -27,7 +32,7 @@ public class ClientMenu {
         Scanner UI = new Scanner(System.in);
         int choice = -1;
         Boolean validInput = false;
-        while(validInput = false){
+        while(validInput == false){
             try{
                 choice = Integer.parseInt(UI.nextLine());                
                 validInput = true;
@@ -44,7 +49,7 @@ public class ClientMenu {
 
     private void clientMenuChoice(int choice) throws ParseException{
         Boolean validInput = false;
-        while(validInput = false){
+        while(validInput == false){
             switch(choice){
                 case 0:
                     System.exit(0);                                    

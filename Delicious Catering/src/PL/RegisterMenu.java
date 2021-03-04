@@ -3,24 +3,23 @@ package PL;
 import java.util.*;
 
 public class RegisterMenu {
-
+    Scanner stringInput = new Scanner(System.in);
     public static void runRegister(){
         
     }
 
-    private String getStringInput() {
-        Scanner stringInputs = new Scanner(System.in);
-        String temp = "";
-        Boolean valid = false; 
-        while(valid = false){
-            try {
-                temp = stringInputs.nextLine();
-                valid = true;
-            } catch (Exception e) {
-                System.out.println("Please enter a valid input.");
+    private String checkValidStringInput(String input){
+        Boolean validInput = false;
+        while(validInput == false){            
+            if(input ==null|| input.matches("")){
+                System.out.println("Please enter a valid input");
+                input = stringInput.nextLine();
+                input = input.trim();                
             }
+            else
+                validInput = true;                
         }
-        return temp;
+        return input;
     }
     
     private boolean verifyNormalString(String normalInput){
@@ -28,10 +27,6 @@ public class RegisterMenu {
     
         if(normalInput == null || normalInput.equals(""))
             return false;
-    
-        if(!normalInput.matches("[a-zA-Z]*"))
-            return false;
-    
         return true;        
     }
     
