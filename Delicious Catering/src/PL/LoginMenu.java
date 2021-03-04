@@ -11,6 +11,6 @@ public class LoginMenu {
         CM.runClientMenu(username);
 
         // login admin
-
+        // view all order, clients, food, drinks, addons, add to the files(just check types)
     }
 }
