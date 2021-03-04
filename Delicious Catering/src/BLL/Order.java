@@ -9,7 +9,7 @@ import java.lang.Math.*;
 public class Order {
     
     private int ordernr;
-    private String clientName;
+    private String userName;
     private String eventAddress;
     private String eventType;
     private boolean decoration;
@@ -41,10 +41,10 @@ public class Order {
 
     public Order(){};
 
-    public Order(int num, String cName, String adress, String type, boolean dec, String theme, Date edate, List<String> food, List<String> bev, List<String> specReq, double afc, double cfc, double btc, double dtc, List<String> addons, double addonsTC, boolean covidEq, double covCost, boolean canc, double tc, double dep, boolean depositPaid, double remainingAm, int childAtt, int aduAtt)
+    public Order(int num, String uName, String adress, String type, boolean dec, String theme, Date edate, List<String> food, List<String> bev, List<String> specReq, double afc, double cfc, double btc, double dtc, List<String> addons, double addonsTC, boolean covidEq, double covCost, boolean canc, double tc, double dep, boolean depositPaid, double remainingAm, int childAtt, int aduAtt)
     {
         this.ordernr = num;
-        this.clientName = cName;
+        this.userName = uName;
         this.eventAddress = adress;
         this.eventType = type;
         this.decoration = dec;
@@ -72,8 +72,8 @@ public class Order {
     public int getOrdernr() {
         return ordernr;
     }
-    public String getClientName() {
-        return clientName;
+    public String getUserName() {
+        return userName;
     }
     public String getEventAddress() {
         return eventAddress;
@@ -228,7 +228,6 @@ public class Order {
         return adultfoodtc;
     }
 
-
     public double CalculateTotalChildFoodCost(int nr, List<Food> choicelist)
     {
         double childfoodtc;
@@ -332,9 +331,8 @@ public class Order {
     }
 
     //runs when client chooses to pay deposit
-    public boolean CheckDeposit(int ordernr, String clientname) throws ParseException   
+    public boolean CheckDeposit(int ordernr, String username) throws ParseException   
     {
-
         OrderData od = new OrderData();
         List<Order> myOrderList = od.ReadOrderList();
 
@@ -347,7 +345,7 @@ public class Order {
 
         for(int i = 0; i < myOrderList.size(); i++)
         {
-            if(ordernr == myOrderList.get(i).ordernr && clientname.equals(myOrderList.get(i).clientName))
+            if(ordernr == myOrderList.get(i).ordernr && username.equals(myOrderList.get(i).userName))
             {
                 long difference_In_Time 
                 = myOrderList.get(i).eventDate.getTime() - date.getTime(); 
@@ -376,7 +374,7 @@ public class Order {
 
         for(int i = 0; i < myOrderList.size(); i++)
         {
-            if(ordernr == myOrderList.get(i).ordernr && username.equals(myOrderList.get(i).clientName))
+            if(ordernr == myOrderList.get(i).ordernr && username.equals(myOrderList.get(i).userName))
             {
                 myOrderList.get(i).cancellation = true;     //cancel the order
             }
