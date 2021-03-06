@@ -3,7 +3,10 @@ package PL;
 import java.util.*;
 
 public class MainMenu {
-    
+    Scanner stringInput = new Scanner(System.in);
+    LoginMenu LM = new LoginMenu();
+    RegisterMenu RM = new RegisterMenu();
+
     private static void printHeading(){
         System.out.println("+------------------------------+");
         System.out.println("|           Welcome to         |");
@@ -11,6 +14,7 @@ public class MainMenu {
         System.out.println("+------------------------------+");
         
     }
+
     private static void printMainMenu(){
         System.out.println("\nPlease make a selection:");
         System.out.println("1: Login");
@@ -18,49 +22,67 @@ public class MainMenu {
         System.out.println("0: Exit");
     }
 
-    public void runMainMenu(){
+    public void runMainMenu() throws Exception{
         printHeading();   
         printMainMenu();
-        mainMenuChoice(getInput());     
+        mainMenuChoice();     
     }
 
     private int getInput(){
-        Scanner UI = new Scanner(System.in);
+        
         int choice = -1;
-        Boolean validInput = false;        
-        while(validInput = false){
+        Boolean validInput = false;      
+        String sChoice;  
+        while(validInput == false){
+            sChoice = checkValidStringInput(stringInput.nextLine().trim());
             try{
-                choice = Integer.parseInt(UI.nextLine());                
+                choice = Integer.parseInt(sChoice);                
                 validInput = true;
             }
             catch(NumberFormatException e){
                 System.out.println("Please enter a valid input");
                 printMainMenu();
-                validInput = false;
             }
         }
-        UI.close();
         return choice;
     }
 
-    private void mainMenuChoice(int choice){
+    private void mainMenuChoice() throws Exception{
         Boolean validInput = false;
-        while(validInput = false){
+        while(validInput == false){
+            int choice = getInput();
             switch(choice){
-                case 0:
-                    System.exit(0);                                    
+                case 0:                    
+                    validInput = true;                                    
                     break;
                 case 1: 
-                    LoginMenu.runLoginMenu();
+                    LM.runLoginMenu();
                     break;
                 case 2:
-                    RegisterMenu.runRegister();
+                    RM.runRegister();
                     break;
                 default: 
                     System.out.println("Invalid menu option. Please try again.");
                     printMainMenu();
                     break;
             }
-        }    
+        }
+        stringInput.close();
+        System.exit(0);    
     }
+
+    private String checkValidStringInput(String input){
+        Boolean validInput = false;
+        while(validInput == false){            
+            if(input ==null|| input.matches("")){
+                System.out.println("Please enter a valid input");
+                input = stringInput.nextLine();
+                input = input.trim();                
+            }
+            else
+                validInput = true;                
+        }
+        return input;
+    }
+
 }

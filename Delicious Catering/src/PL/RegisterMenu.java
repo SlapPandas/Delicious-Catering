@@ -1,54 +1,46 @@
 package PL;
 
 import java.util.*;
+import BLL.*;
 
 public class RegisterMenu {
+    Scanner stringInput = new Scanner(System.in);
+    Client CV = new Client(); 
 
-    public static void runRegister(){
-        
+    public void runRegister(){  
+        addtoClients();  
     }
 
-    private String getStringInput() {
-        Scanner stringInputs = new Scanner(System.in);
-        String temp = "";
-        Boolean valid = false; 
-        while(valid = false){
-            try {
-                temp = stringInputs.nextLine();
-                valid = true;
-            } catch (Exception e) {
-                System.out.println("Please enter a valid input.");
+    private String checkValidStringInput(String input){
+        Boolean validInput = false;
+        while(validInput == false){            
+            if(input ==null|| input.matches("")){
+                System.out.println("Please enter a valid input");
+                input = stringInput.nextLine();
+                input = input.trim();                
             }
+            else
+                validInput = true;                
         }
-        return temp;
-    }
-    
-    private boolean verifyNormalString(String normalInput){
-        normalInput = normalInput.trim();
-    
-        if(normalInput == null || normalInput.equals(""))
-            return false;
-    
-        if(!normalInput.matches("[a-zA-Z]*"))
-            return false;
-    
-        return true;        
-    }
-    
-    private boolean verifyEmail(String email){
-        email = email.trim();
-    
-        if(email == null || email.equals(""))
-            return false;
-    
-        if(!email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$"))
-            return false;
-    
-        return true;
+        return input;
     }  
-
-    private static void clearScreen(){
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
-    } 
-}
+    public void addtoClients(){
+        String username,password,fname,surname,contactnr,email,address;
+        Boolean adminRights= false;
+        System.out.println("Please enter your username");
+        username = checkValidStringInput(stringInput.nextLine().trim());
+        System.out.println("Please enter your password");
+        password = checkValidStringInput(stringInput.nextLine().trim());
+        System.out.println("Please enter your first name");
+        fname = checkValidStringInput(stringInput.nextLine().trim());
+        System.out.println("Please enter your surname");
+        surname = checkValidStringInput(stringInput.nextLine().trim());
+        System.out.println("Please enter your conact number");
+        contactnr = checkValidStringInput(stringInput.nextLine().trim());
+        System.out.println("Please enter your email address");
+        email = checkValidStringInput(stringInput.nextLine().trim());
+        System.out.println("please enter your address");
+        address = checkValidStringInput(stringInput.nextLine().trim());
+        CV.RegisterClient(username, password, fname, surname, contactnr, email, address, adminRights);
+    }  
+} 

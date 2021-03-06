@@ -39,4 +39,28 @@ public class Beverage {
         return beveragelist;
 
     }
+
+    public boolean CheckBeverageExists(String beverage)
+    {
+        boolean exists = false;
+
+        BeverageData od = new BeverageData();
+
+        List<Beverage> beverageList = od.ReadBeveragesList();
+
+        for(int i = 0; i < beverageList.size(); i++)
+        {
+            if (beverageList.get(i).getBeverageName().equals(beverage))
+            {
+                exists = true;
+                break;
+            } 
+        }
+        return exists;
+    }
+
+    public void AddNewBeverage(String name, double price){
+        BeverageData bd = new BeverageData();
+        bd.WriteNewBeverage(name, price);
+    }
 }

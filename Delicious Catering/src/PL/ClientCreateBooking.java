@@ -1,6 +1,7 @@
 package PL;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -8,7 +9,6 @@ import BLL.AddOn;
 import BLL.Beverage;
 import BLL.Food;
 import BLL.Order;
-import jdk.nashorn.api.tree.WhileLoopTree;
 
 public class ClientCreateBooking {
     // variables needed to run user input and display lists
@@ -26,20 +26,16 @@ public class ClientCreateBooking {
     private Date eventDate;
     private int adultsAttending;
     private int childrenAttending;
-    private String starterFood;
-    private String mainFood;
-    private String desertFood;
+    private String starterChosen;
+    private String mainChosen;
+    private String desertChosen;
     private List<String> chosenFood;
     private List<String> chosenDrinks;
-
-    private Boolean covidEquipment;
-        // not finished variables
     private List<String> specialRequests;
     private List<String> addOns;
+    private Boolean covidEquipment;
     
-
-
-    public void createNewBooking(){
+    public void createNewBooking() throws ParseException{
         chosenDrinks.clear();
         chosenFood.clear();
         specialRequests.clear();
@@ -47,12 +43,11 @@ public class ClientCreateBooking {
         theme = "none";
         Decoration = false;
         covidEquipment = false;        
-        clearScreen();        
+        clearScreen();    
         getClientName();        
         getEventAddress();        
         getEventType();        
         getDecorationTF();
-        // do i need to do availibility check?        
         getBookingDate();        
         getAdultsAttending();        
         getChildrenAttending();
@@ -64,121 +59,68 @@ public class ClientCreateBooking {
         getDesertChoice();      
         clearScreen();
         getDrinksChoice();
+        clearScreen();        
+        getSpecialFoodRequest();    
+        clearScreen(); 
+        getAdOnList();   
         clearScreen();
-
-        System.out.println("Please enter any special requests, press 0 to finish.");
-        getSpecialFoodRequest();
-        // read user. repeat until 0 is pressed
-        
-        System.out.println("Please select the add-ons you would like.");
-        // take in addons list and display
-        // read addOns
         getCovidTF();
-
-        // display information collected, allow user to confirm and then send to DAL.
-        //OV.GetOrderInfo(ClientName, EventAddress, EventType, Decoration, theme, eventDate, chosenFood, chosenDrinks, specialRequests, addOns, covidEquipment, childrenAttending, adultsAttending);
-        stringInput.close();
+        clearScreen();
+        displayEnteredInfo();
+        checkValidOrder(); 
     }
 
     private void getClientName(){
-        System.out.println("You are now making a new booking.");
+        System.out.println("\nYou are now making a new booking.");
         System.out.println("Please input the correct information.");
-        System.out.println("Please enter your name");
-        Boolean validInput = false;        
-        String input;  
-        input = stringInput.nextLine();
-        input = input.trim();
-        while(validInput == false){                        
-            if(input == null|| input.matches("")){
-                System.out.println("Please enter a valid name");
-                input = stringInput.nextLine();
-                input = input.trim();
-            }
-            else
-                validInput = true;
-        }    
-        ClientName = input;         
+        System.out.println("Please enter your username"); 
+        ClientName = checkValidStringInput(stringInput.nextLine().trim());         
     }
 
     private void getEventAddress(){
         System.out.println("Please enter the address of the event");
-        String input;
-        Boolean validInput = false;
-        input = stringInput.nextLine(); 
-        input = input.trim();   
-        while(validInput == false){            
-            if(input == null|| input.matches("")){
-                System.out.println("Please enter a valid event address");
-                input = stringInput.nextLine();
-                input = input.trim();
-            }
-            else
-                validInput = true;
-        }   
-        EventAddress = input;
+        EventAddress = checkValidStringInput(stringInput.nextLine().trim());
     }
 
     private void getEventType(){
         System.out.println("Please enter the type of event (eg. Wedding, Birthday)");
-        String input;
-        Boolean validInput = false;
-        input = stringInput.nextLine(); 
-        input = input.trim();   
-        while(validInput == false){            
-            if(input ==null|| input.matches("")){                
-                System.out.println("Please enter a valid event type");
-                input = stringInput.nextLine();
-                input = input.trim();
-            }
-            else
-                validInput = true;
-        }   
-        EventType = input;
+        EventType = checkValidStringInput(stringInput.nextLine().trim());
 
     }
 
     private void getDecorationTF (){
         System.out.println("Would you like us to provide decoration?");
-        System.out.println("Please enter Yes or No");        
+        Decoration = checkValidTF();
+        if (Decoration) {
+            getDecorationTheme();
+        }
+    }
+
+    private Boolean checkValidTF(){
+        System.out.println("Please enter Yes or No");
         String input;
-        Boolean validInput = false;        
-        while (validInput== false) {
-            input = stringInput.nextLine();  
-            input = input.trim();
-            input = input.toUpperCase();
+        Boolean validInput = false;
+        Boolean localCheck = false;
+        while (validInput == false) {
+            input = stringInput.nextLine().trim().toLowerCase();
             switch (input) {
                 case "YES": 
-                    Decoration = true;                
-                    getDecorationTheme();
-                    validInput = true;               
+                    localCheck = true;
                     break;
                 case "NO":
-                    Decoration = false;
-                    validInput = true;
+                    localCheck = false;
                     break;
                 default:
-                    System.out.println("Please enter Yes or No");
+                    System.out.println("Invalid input, please enter yes or no.");
                     break;
             }
-        }        
+        }
+        return localCheck;
     }
 
     private void getDecorationTheme(){
         System.out.println("Please enter the theme you would like");
-        String input;
-        Boolean validInput = false;
-        input = stringInput.nextLine();  
-        input = input.trim();  
-        while(validInput == false){            
-            if(input ==null|| input.matches("")){
-                input = stringInput.nextLine();
-                input = input.trim();
-                System.out.println("Please enter a valid input");
-            }
-            else
-                validInput = true;
-        }
-        theme = input;
+        theme = checkValidStringInput(stringInput.nextLine().trim());
     }
 
     private void getBookingDate(){
@@ -188,98 +130,56 @@ public class ClientCreateBooking {
         Date tempDate = null;
         df.setLenient(false);
         String input = stringInput.nextLine();
-        input = input.trim();
         while(validDate == false){
+            input = checkValidStringInput(stringInput.nextLine().trim());
             try{                
                 tempDate = df.parse(input);
+                eventDate = tempDate;
                 validDate = true;
             }
             catch(Exception e){
                 System.out.println("Please enter a valid date, using format dd-MM-yyyy");
-                input = stringInput.nextLine();
-                input = input.trim();
-                validDate = false;
+                input = checkValidStringInput(stringInput.nextLine().trim());
             }            
-        }
-        eventDate = tempDate;        
+        }                
     }
 
     private void getAdultsAttending(){
         System.out.println("How many Adults will be attending?");
-        String input;
-        int output;
-        Boolean validInput = false;
-        input = stringInput.nextLine(); 
-        input = input.trim();    
-        while(validInput == false){            
-            if(input ==null || input.matches("")){
-                System.out.println("Please enter a valid input");
-                input = stringInput.nextLine();
-                input = input.trim(); 
-            }
-            else{
-                try {
-                    output = Integer.parseInt(input.trim());
-                    validInput = true;
-                } catch (Exception e) {
-                    System.out.println("Please enter a valid input");
-                    input = stringInput.nextLine();
-                    input = input.trim(); 
-                }                    
-            }
-        }
-        adultsAttending = Integer.parseInt(input); 
+        adultsAttending = checkValidIntInput(stringInput.nextLine().trim());
     }
 
     private void getChildrenAttending(){
         System.out.println("How many children will be attending?");
-        String input;
-        int output;
+        childrenAttending = checkValidIntInput(stringInput.nextLine().trim());
+    }
+    
+    private int checkValidIntInput(String input){
         Boolean validInput = false;
-        input = stringInput.nextLine();   
-        input = input.trim(); 
-        while(validInput == false){            
+        int output = 0;
+        while (validInput == false) {
             if(input ==null || input.matches("")){
                 System.out.println("Please enter a valid input");
-                input = stringInput.nextLine();
+                input = stringInput.nextLine().trim();
                 input = input.trim(); 
             }
             else
+            {
                 try {
-                    output = Integer.parseInt(input.trim());
-                    validInput = true;
+                    output = Integer.parseInt(input);
+                    validInput = true;                    
                 } catch (Exception e) {
-                    System.out.println("Please enter a valid input");
-                    input = stringInput.nextLine();
-                    input = input.trim(); 
+                    System.out.println("Please enter a valid number");
+                    input = stringInput.nextLine().trim();
                 }
-                
-        }   
-    }
-    
-    private void getCovidTF(){
-        System.out.println("Would you like to make use of Covid-19 equipment?");
-        System.out.println("Please enter Yes or No");     
-        String input;
-        Boolean validInput = false;        
-        while (validInput== false) {
-            input = stringInput.nextLine();  
-            input = input.trim();
-            input = input.toUpperCase();
-            switch (input) {
-                case "YES": 
-                    covidEquipment = true;                
-                    validInput = true;               
-                    break;
-                case "NO":
-                    covidEquipment = false;
-                    validInput = true;
-                    break;
-                default:
-                    System.out.println("Please enter Yes or No");
-                    break;
             }
         }
+        return output;
+    }
+
+    private void getCovidTF(){
+        System.out.println("Would you like to make use of Covid-19 equipment?");
+        covidEquipment = checkValidTF();
     }
     
     private void getCourseFoods(String MealType){
@@ -290,249 +190,95 @@ public class ClientCreateBooking {
         }
     }
 
+    private String checkValidStringInput(String input){
+        Boolean validInput = false;
+        while(validInput == false){            
+            if(input ==null|| input.matches("")){
+                System.out.println("Please enter a valid input");
+                input = stringInput.nextLine();
+                input = input.trim();                
+            }
+            else
+                validInput = true;                
+        }
+        return input;
+    }
+
     private  void getStarterChoice(){
         System.out.println("Please select 1 Starter.");
         getCourseFoods("Starter"); 
-
-        Boolean validInput = false;
         Boolean fromList = false;
-        List<Food> FoodList = FV.GetFood("Starter");
-        String input = stringInput.nextLine();
-        String check;    
-        input = input.trim();
+        String input; 
         while (fromList == false) { 
-            while (validInput == false) {
-                if(input == null|| input.matches("")){
-                    System.out.println("Please enter a valid input");
-                    input = stringInput.nextLine();
-                    input = input.trim();
-                }
-                else
-                {
-                    validInput = true;
-                }                    
-            }
-            for(int i = 0; i < FoodList.size(); i++){
-                check = FoodList.get(i).getFoodName();
-                if (input.matches(check)) {
-                    fromList = true;
-                }
-            }
+            input = checkValidStringInput(stringInput.nextLine().trim());   
+            fromList = FV.CheckFoodExists(input);    
             if (fromList == false) {
-                System.out.println("Please enter a valid food choice");
-                input = stringInput.nextLine();
-                input = input.trim();
-                validInput = false;
-            }
+                System.out.println("Please enter a valid starter choice");           
+            } else{
+                chosenFood.add(input);
+                starterChosen = input;
+            }                        
         }
-        chosenFood.add(input);
     }
 
     private void getMainChoice(){
         System.out.println("Please select 1 Main.");
         getCourseFoods("Main"); 
-
-        Boolean validInput = false;
         Boolean fromList = false;
-        List<Food> FoodList = FV.GetFood("Main");
-        String input = stringInput.nextLine();
-        String check;    
-        input = input.trim();
+        String input;
         while (fromList == false) { 
-            while (validInput == false) {
-                if(input == null|| input.matches("")){
-                    System.out.println("Please enter a valid input");
-                    input = stringInput.nextLine();
-                    input = input.trim();
-                }
-                else
-                {
-                    validInput = true;
-                }                    
-            }
-            for(int i = 0; i < FoodList.size(); i++){
-                check = FoodList.get(i).getFoodName();
-                if (input.matches(check)) {
-                    fromList = true;
-                }
-            }
+            input = checkValidStringInput(stringInput.nextLine().trim());
+            fromList = FV.CheckFoodExists(input);
             if (fromList == false) {
-                System.out.println("Please enter a valid food choice");
-                input = stringInput.nextLine();
-                input = input.trim();
-                validInput = false;
-            }
-        }
-    chosenFood.add(input);
+                System.out.println("Please enter a valid main choice");
+            } else{
+                chosenFood.add(input);
+                mainChosen = input;
+            } 
+        }    
     }
 
     private void getDesertChoice(){
         System.out.println("Please select 1 Desert.");
         getCourseFoods("Desert"); 
-
-        Boolean validInput = false;
         Boolean fromList = false;
-        List<Food> FoodList = FV.GetFood("Desert");
-        String input = stringInput.nextLine();
-        String check;    
-        input = input.trim();
+        String input;
         while (fromList == false) { 
-            while (validInput == false) {
-                if(input == null|| input.matches("")){
-                    System.out.println("Please enter a valid input");
-                    input = stringInput.nextLine();
-                    input = input.trim();
-                }
-                else
-                {
-                    validInput = true;
-                }                    
-            }
-            for(int i = 0; i < FoodList.size(); i++){
-                check = FoodList.get(i).getFoodName();
-                if (input.matches(check)) {
-                    fromList = true;
-                }
-            }
+            input = checkValidStringInput(stringInput.nextLine().trim());
+            fromList = FV.CheckFoodExists(input);
             if (fromList == false) {
-                System.out.println("Please enter a valid food choice");
-                input = stringInput.nextLine();
-                input = input.trim();
-                validInput = false;
-            }
+                System.out.println("Please enter a valid desert choice");
+            } else{
+                chosenFood.add(input);
+                desertChosen = input;
+            } 
         }
-        chosenFood.add(input);
     }
 
     private void getDrinksChoice(){
+        Boolean validChoice = false;                       
         System.out.println("How many different drinks would you like? (1, 2 or 3)");
-        Boolean choicesMade = false;
-        Boolean validInput = false;
-        String input = stringInput.nextLine();
-        String check;
-        List<Beverage> beverageList = BV.GetBeverages();
-        input = input.trim();
-        while (choicesMade == false){
-            while (validInput == false){
-                if(input == null|| input.matches("")){
-                    System.out.println("Please enter a valid input");
-                    input = stringInput.nextLine();
-                    input = input.trim();
-                }
-                else
-                {
-                    validInput = true;
-                }                
-            }
-            switch (input) {
-                case "1": 
-                {  
-                    displayDrinksList();
-                    System.out.println("Please type the name of the drink you would like");  
-                    validInput = false; 
-                    while (validInput == false){
-                        if(input == null|| input.matches("")){
-                            System.out.println("Please enter a valid input");
-                            input = stringInput.nextLine();
-                            input = input.trim();
-                        }
-                        else
-                        {
-                            validInput = true;
-                        }    
-                    }
-                    for (int i = 0; i < beverageList.size(); i++) {
-                        check = beverageList.get(i).getBeverageName();
-                        if (input.matches(check)) {
-                            validInput = true;
-                            choicesMade = true;
-                            chosenDrinks.add(input);
-                            chosenDrinks.add("none");
-                            chosenDrinks.add("none");
-                        }
-                        if (validInput == false) {
-                            System.out.println("Please enter a drink that is displayed");
-                            input = stringInput.nextLine();
-                            input.trim();
-                            validInput = false;
-                        }
-                    }                                                  
-                    break;
-                }
-                case "2":
-                {
+        String input;
+        while (validChoice == false) {
+            input = checkValidStringInput(stringInput.nextLine().trim());
+            if (input.matches("1")|| input.matches("2")|| input.matches("3")) {
+                validChoice = true;
                 displayDrinksList();
-                    System.out.println("Please type the name of the 1st drink you would like");
-                    for (int i = 0; i < 2; i++) {
-                        validInput = false; 
-                        while (validInput == false){
-                            if(input == null|| input.matches("")){
-                                System.out.println("Please enter a valid input");
-                                input = stringInput.nextLine();
-                                input = input.trim();
-                            }
-                            else
-                            {
-                                validInput = true;
-                            }    
-                        }
-                        for (int k = 0; k < beverageList.size(); k++) {
-                            check = beverageList.get(k).getBeverageName();
-                            if (input.matches(check)) {
-                                validInput = true;
-                                choicesMade = true;
-                                chosenDrinks.add(input);
-                            }
-                            if (validInput == false) {
-                                System.out.println("Please enter a drink that is displayed");
-                                input = stringInput.nextLine();
-                                input.trim();
-                                validInput = false;
-                            }
-                        }
-                    } 
-                    chosenDrinks.add("none");                    
-                    break;
+                int amountOfDrinks = Integer.parseInt(input);
+                for (int i = 0; i < amountOfDrinks; i++) {
+                    input = checkValidStringInput(stringInput.nextLine());
+                    if (BV.CheckBeverageExists(input)) {
+                        chosenDrinks.add(input);
+                    } else {
+                        System.out.println("Please enter a valid drink");
+                        input = checkValidStringInput(stringInput.nextLine().trim());
+                        i--;
+                    }
                 }
-                case "3":
-                {
-                    displayDrinksList();
-                        System.out.println("Please type the name of the 1st drink you would like");
-                        for (int i = 0; i < 3; i++) {
-                            validInput = false; 
-                            while (validInput == false){
-                                if(input == null|| input.matches("")){
-                                    System.out.println("Please enter a valid input");
-                                    input = stringInput.nextLine();
-                                    input = input.trim();
-                                }
-                                else
-                                {
-                                    validInput = true;
-                                }    
-                            }
-                            for (int j = 0; j < beverageList.size(); j++) {
-                                check = beverageList.get(j).getBeverageName();
-                                if (input.matches(check)) {
-                                    validInput = true;
-                                    choicesMade = true;
-                                    chosenDrinks.add(input);
-                                }
-                                if (validInput == false) {
-                                    System.out.println("Please enter a drink that is displayed");
-                                    input = stringInput.nextLine();
-                                    input.trim();
-                                    validInput = false;
-                                }
-                            }
-                        }                   
-                    break;
-                }                           
-                default:
-                    validInput = false;                   
-                    break;
-            }
-        }
+            } else {
+                System.out.println("Please enter a valid drink amount");
+            } 
+        }                   
     }
 
     private void displayDrinksList(){
@@ -544,7 +290,52 @@ public class ClientCreateBooking {
     }
 
     private void getSpecialFoodRequest(){
-        
+        System.out.println("Please enter any special requests.");
+        Boolean exitInput = false;       
+        String input;
+        while (exitInput == false) {
+            System.out.println("Press 0 to exit");
+            input = checkValidStringInput(stringInput.nextLine().trim());
+            if (input.matches("0")) {
+                exitInput = true;
+            } else {
+                specialRequests.add(input);
+            }
+        }
+    }
+
+    private void getAdOnList(){
+        System.out.println("Please right the name of the add ons you would like.");
+        Boolean exitInput = false;
+        Boolean fromList = false;
+        String input;
+
+        while (exitInput == false) {
+            displayAddOnList();
+            System.out.println("enter 0 if you would like to exit.");
+            input = checkValidStringInput(stringInput.nextLine().trim());
+            if (input.matches("0")) {
+                exitInput = true;
+            } else {
+                while (fromList == false) {
+                    fromList = AOV.CheckAddOnsExists(input);
+                    if (fromList == false) {
+                        System.out.println("Please enter a addon from the list");
+                    } else {
+                        addOns.add(input);
+                        fromList = false;
+                    }
+                }
+            }
+
+        }
+    }
+
+    private void displayAddOnList(){
+        List<AddOn> AddOnList = AOV.GetAddOn();
+        for (int g = 0; g < AddOnList.size(); g++) {
+            System.out.println(AddOnList.get(g).getAddOnName() + " R" + AddOnList.get(g).getAddOnPrice());
+        }
     }
 
     private static void clearScreen(){
@@ -552,4 +343,43 @@ public class ClientCreateBooking {
         System.out.flush();
     }
 
+    private void displayEnteredInfo(){
+        System.out.println("Please confirm this is your order:");
+        System.out.println("Your name is: " + ClientName + ", the " + EventType + " will be on: " + eventDate.toString() + " at: "+ EventAddress);
+        if (Decoration) {
+            System.out.println("You do want decoration, and you want the theme to be: " + theme);
+        } else {
+            System.out.println("You do not want decoration, ");            
+        }
+        System.out.println("There will be: " + Integer.toString(adultsAttending) + " adults addending and " + Integer.toString(childrenAttending) + "children attending");        
+        System.out.println("The food you have chosen to eat is: " + starterChosen + ", " + mainChosen + ", " +  desertChosen);        
+        System.out.println("The drinks you have selected are: ");
+        for (int i = 0; i < chosenDrinks.size(); i++) {
+            System.out.println(chosenDrinks.get(i).toString());
+        }
+        System.out.println("The addons you have chosen are:"); 
+        for (int k = 0; k < addOns.size(); k++) {
+            System.out.println(addOns.get(k).toString());
+        }
+        System.out.print("And you have ");
+        if (covidEquipment) {
+            System.out.println("chosen to use covid equipment");
+            
+        } else {
+            System.out.println("not chosen to use covid equipment");
+        }
+    }
+
+    private void checkValidOrder() throws ParseException {
+        System.out.println("Is your order correct?"); 
+         Boolean correctOrder = checkValidTF();
+        if (correctOrder) {
+            System.out.println("Order has been added.");
+            int ordernumber = OV.GetOrderInfo(ClientName, EventAddress, EventType, Decoration,  theme, eventDate, chosenFood, chosenDrinks, specialRequests, addOns, covidEquipment, childrenAttending, adultsAttending);     
+            System.out.println("Your order number is: " + ordernumber);
+            System.out.println("Please remember this order number");                                
+        } else {
+            System.out.println("order has been erased.");
+        }
+    }
 }

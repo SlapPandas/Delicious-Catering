@@ -46,4 +46,29 @@ public class Food {
         return foodlist;
 
     }
+
+    public boolean CheckFoodExists(String food)
+    {
+        boolean exists = false;
+
+        FoodData od = new FoodData();
+
+        List<Food> foodList = od.ReadFoodList();
+
+        for(int i = 0; i < foodList.size(); i++)
+        {
+            if (foodList.get(i).getFoodName().equals(food))
+            {
+                exists = true;
+                break;
+            } 
+        }
+        return exists;
+    }
+
+    public void AddNewFood(String course, String name, double price){
+        FoodData fd = new FoodData();
+        fd.WriteNewFood(course, name, price);
+    }
+
 }

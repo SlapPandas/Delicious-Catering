@@ -9,7 +9,7 @@ import java.lang.Math.*;
 public class Order {
     
     private int ordernr;
-    private String clientName;
+    private String userName;
     private String eventAddress;
     private String eventType;
     private boolean decoration;
@@ -41,10 +41,10 @@ public class Order {
 
     public Order(){};
 
-    public Order(int num, String cName, String adress, String type, boolean dec, String theme, Date edate, List<String> food, List<String> bev, List<String> specReq, double afc, double cfc, double btc, double dtc, List<String> addons, double addonsTC, boolean covidEq, double covCost, boolean canc, double tc, double dep, boolean depositPaid, double remainingAm, int childAtt, int aduAtt)
+    public Order(int num, String uName, String adress, String type, boolean dec, String theme, Date edate, List<String> food, List<String> bev, List<String> specReq, double afc, double cfc, double btc, double dtc, List<String> addons, double addonsTC, boolean covidEq, double covCost, boolean canc, double tc, double dep, boolean depositPaid, double remainingAm, int childAtt, int aduAtt)
     {
         this.ordernr = num;
-        this.clientName = cName;
+        this.userName = uName;
         this.eventAddress = adress;
         this.eventType = type;
         this.decoration = dec;
@@ -72,8 +72,8 @@ public class Order {
     public int getOrdernr() {
         return ordernr;
     }
-    public String getClientName() {
-        return clientName;
+    public String getUserName() {
+        return userName;
     }
     public String getEventAddress() {
         return eventAddress;
@@ -228,7 +228,6 @@ public class Order {
         return adultfoodtc;
     }
 
-
     public double CalculateTotalChildFoodCost(int nr, List<Food> choicelist)
     {
         double childfoodtc;
@@ -332,11 +331,12 @@ public class Order {
     }
 
     //runs when client chooses to pay deposit
-    public void CheckDeposit(int ordernr, String clientname) throws ParseException   
+    public boolean CheckDeposit(int ordernr, String username) throws ParseException   
     {
-
         OrderData od = new OrderData();
         List<Order> myOrderList = od.ReadOrderList();
+
+        boolean cancelledReturn = false;
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
             Date date = new Date();
@@ -345,9 +345,8 @@ public class Order {
 
         for(int i = 0; i < myOrderList.size(); i++)
         {
-            if(ordernr == myOrderList.get(i).ordernr && clientname.equals(myOrderList.get(i).clientName))
+            if(ordernr == myOrderList.get(i).ordernr && username.equals(myOrderList.get(i).userName))
             {
-
                 long difference_In_Time 
                 = myOrderList.get(i).eventDate.getTime() - date.getTime(); 
                 long difference_In_Days = (difference_In_Time / (1000 * 60 * 60 * 24)) % 365;
@@ -360,26 +359,29 @@ public class Order {
                 else
                 {
                     myOrderList.get(i).cancellation = true;     //cancel the order
+                    cancelledReturn = true;
                 }
             }
         }
+
+        return cancelledReturn;
     }
 
-    public void Cancellation(int ordernr, String clientname) throws ParseException
+    public void Cancellation(int ordernr, String username) throws ParseException
     {
         OrderData od = new OrderData();
         List<Order> myOrderList = od.ReadOrderList(); 
 
         for(int i = 0; i < myOrderList.size(); i++)
         {
-            if(ordernr == myOrderList.get(i).ordernr && clientname.equals(myOrderList.get(i).clientName))
+            if(ordernr == myOrderList.get(i).ordernr && username.equals(myOrderList.get(i).userName))
             {
                 myOrderList.get(i).cancellation = true;     //cancel the order
             }
         }
     }
 
-    public void GetOrderInfo(String cName, String adress, String type, boolean dec, String theme, Date edate, List<String> food, List<String> bev, List<String> specReq, List<String> addons, boolean covidEq, int childAtt, int aduAtt)
+    public int GetOrderInfo(String cName, String adress, String type, boolean dec, String theme, Date edate, List<String> food, List<String> bev, List<String> specReq, List<String> addons, boolean covidEq, int childAtt, int aduAtt)
     throws ParseException
     {   
 
@@ -417,6 +419,38 @@ public class Order {
         double remainingAm = tc;
 
         od.WriteNewOrder(num, cName, adress, type, dec, theme, edate, food, bev, specReq, afc, cfc, btc, dtc, addons, addonsTC, covidEq, covCost, canc, tc, dep, depPaid, remainingAm, childAtt, aduAtt);
+    
+        return ordernr;
+    }
+
+    public List<Order> GetAllOrders()
+    throws ParseException
+    {
+        OrderData od = new OrderData();
+
+        List<Order> orderList = od.ReadOrderList();
+
+        return orderList;
+
+    }
+
+    public boolean CheckOrderExists(int nr) throws ParseException
+    {
+        boolean exists = false;
+
+        OrderData od = new OrderData();
+
+        List<Order> orderList = od.ReadOrderList();
+
+        for(int i = 0; i < orderList.size(); i++)
+        {
+            if (orderList.get(i).ordernr == nr)
+            {
+                exists = true;
+                break;
+            } 
+        }
+        return exists;
     }
 
 }
