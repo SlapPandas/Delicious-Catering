@@ -6,7 +6,7 @@ import java.util.*;
 public class LoginMenu {
     Scanner stringInput = new Scanner(System.in); 
     ClientMenu CM = new ClientMenu();
-    
+    AdminMenu AM = new AdminMenu();
 
     public void runLoginMenu(){
         ClientMenu CM = new ClientMenu();        
@@ -25,8 +25,7 @@ public class LoginMenu {
             }
         }
         if (isAdmin) {
-            // run admin logic
-            // view all order, clients, food, drinks, addons, add to the files(just check types)
+            AM.runAdminMenu();            
         } else {
             CM.runClientMenu(username);
         }                        
