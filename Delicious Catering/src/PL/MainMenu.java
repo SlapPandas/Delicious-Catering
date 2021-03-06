@@ -4,6 +4,8 @@ import java.util.*;
 
 public class MainMenu {
     Scanner stringInput = new Scanner(System.in);
+    LoginMenu LM = new LoginMenu();
+
     private static void printHeading(){
         System.out.println("+------------------------------+");
         System.out.println("|           Welcome to         |");
@@ -53,7 +55,7 @@ public class MainMenu {
                     validInput = true;                                    
                     break;
                 case 1: 
-                    LoginMenu.runLoginMenu();
+                    LM.runLoginMenu();
                     break;
                 case 2:
                     RegisterMenu.runRegister();
