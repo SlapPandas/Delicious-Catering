@@ -66,4 +66,9 @@ public class Food {
         return exists;
     }
 
+    public void AddNewFood(String course, String name, double price){
+        FoodData fd = new FoodData();
+        fd.WriteNewFood(course, name, price);
+    }
+
 }

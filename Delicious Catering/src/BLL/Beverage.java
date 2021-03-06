@@ -58,4 +58,9 @@ public class Beverage {
         }
         return exists;
     }
+
+    public void AddNewBeverage(String name, double price){
+        BeverageData bd = new BeverageData();
+        bd.WriteNewBeverage(name, price);
+    }
 }

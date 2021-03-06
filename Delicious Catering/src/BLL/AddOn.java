@@ -60,5 +60,10 @@ public class AddOn {
         }
         return exists;
     }
+
+    public void AddNewAddOn(String name, double price){
+        AddOnData ad = new AddOnData();
+        ad.WriteNewAddOn(name, price);
+    }
     
 }
