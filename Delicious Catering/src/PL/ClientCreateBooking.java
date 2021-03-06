@@ -68,13 +68,12 @@ public class ClientCreateBooking {
         clearScreen();
         displayEnteredInfo();
         checkValidOrder(); 
-        stringInput.close();
     }
 
     private void getClientName(){
-        System.out.println("You are now making a new booking.");
+        System.out.println("\nYou are now making a new booking.");
         System.out.println("Please input the correct information.");
-        System.out.println("Please enter your name"); 
+        System.out.println("Please enter your username"); 
         ClientName = checkValidStringInput(stringInput.nextLine().trim());         
     }
 

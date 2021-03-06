@@ -5,6 +5,7 @@ import java.util.*;
 public class MainMenu {
     Scanner stringInput = new Scanner(System.in);
     LoginMenu LM = new LoginMenu();
+    RegisterMenu RM = new RegisterMenu();
 
     private static void printHeading(){
         System.out.println("+------------------------------+");
@@ -58,7 +59,7 @@ public class MainMenu {
                     LM.runLoginMenu();
                     break;
                 case 2:
-                    RegisterMenu.runRegister();
+                    RM.runRegister();
                     break;
                 default: 
                     System.out.println("Invalid menu option. Please try again.");

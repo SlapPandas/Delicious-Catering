@@ -57,7 +57,6 @@ public class DataReaderWriter implements ReadWriteInterface {
             pw.close();
             success = true;
         } catch (FileNotFoundException e1) {
-            // TODO Auto-generated catch block
             success = false;
         }
         return success;
