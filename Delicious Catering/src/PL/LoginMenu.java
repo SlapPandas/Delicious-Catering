@@ -8,7 +8,7 @@ public class LoginMenu {
     ClientMenu CM = new ClientMenu();
     AdminMenu AM = new AdminMenu();
 
-    public void runLoginMenu(){
+    public void runLoginMenu()throws Exception{
         ClientMenu CM = new ClientMenu();        
         Boolean validLogin = false, isAdmin = false;
         String username = "",password="";

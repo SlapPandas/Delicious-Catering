@@ -21,7 +21,7 @@ public class MainMenu {
         System.out.println("0: Exit");
     }
 
-    public void runMainMenu(){
+    public void runMainMenu() throws Exception{
         printHeading();   
         printMainMenu();
         mainMenuChoice();     
@@ -46,7 +46,7 @@ public class MainMenu {
         return choice;
     }
 
-    private void mainMenuChoice(){
+    private void mainMenuChoice() throws Exception{
         Boolean validInput = false;
         while(validInput == false){
             int choice = getInput();
